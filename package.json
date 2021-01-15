@@ -11,9 +11,16 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "autoprefixer": "^10.2.1",
+    "axios": "^0.21.1",
     "next": "10.0.5",
+    "postcss": "^8.2.4",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "swr": "^0.4.0",
+    "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.8",
