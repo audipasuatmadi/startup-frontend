@@ -1,6 +1,6 @@
-export const fetchFromStorage = <T>(key: string): T | null => {
+export const fetchFromStorage = (key: string): string | null => {
   const value = localStorage.getItem(key)
-  if (!!value) return JSON.parse(value)
+  if (!!value) return value
 
   return null
 }

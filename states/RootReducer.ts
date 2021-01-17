@@ -1,7 +1,11 @@
 import { combineReducers } from "redux"
 
-const RootReducer = combineReducers({
+const dummyReducer = (state = 'nice', action) => {
+  return state
+}
 
+const RootReducer = combineReducers({
+  njir: dummyReducer
 })
 
 
