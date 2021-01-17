@@ -1,5 +1,4 @@
 import '../styles/globals.css'
-import Navbar from '../components/navbars/Navbar'
 import { Provider } from 'react-redux'
 import { useStore } from '../states/Store'
 import { useEffect } from 'react'
@@ -19,7 +18,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <Navbar />
       <Component {...pageProps} />
     </Provider>
   )
