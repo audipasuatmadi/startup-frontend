@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseButton rendering tests should render properly as a button when disabled, even with a href 1`] = `
+<button
+  className="cursor-default"
+  disabled={true}
+  onClick={false}
+/>
+`;
+
+exports[`BaseButton rendering tests should render properly as a button without args 1`] = `<button />`;
+
+exports[`BaseButton rendering tests should render properly as a link, with href args without disabled 1`] = `
+<Link
+  href="/home"
+>
+  <a />
+</Link>
+`;
