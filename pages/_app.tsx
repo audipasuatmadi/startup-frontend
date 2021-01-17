@@ -1,7 +1,9 @@
 import '../styles/globals.css'
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles'
-import { yellow } from '@material-ui/core/colors'
 import Navbar from '../components/navbars/Navbar'
+import { Provider } from 'react-redux'
+import { useStore } from '../states/Store'
+
 
 const theme = createMuiTheme({
   palette: {
@@ -14,10 +16,14 @@ const theme = createMuiTheme({
 })
 
 function MyApp({ Component, pageProps }) {
+  const store = useStore(pageProps.initialReduxState)
+
   return (
   <ThemeProvider theme={theme}>
-    <Navbar />
-    <Component {...pageProps} />
+    <Provider store={store}>
+      <Navbar />
+      <Component {...pageProps} />
+    </Provider>
   </ThemeProvider>
   )
 }
