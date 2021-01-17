@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`text button rendering tests renders correctly as a Link 1`] = `
+<BaseButton
+  className="button bg-none text-brand transition-colors duration-200 hover:bg-opacity-30 hover:bg-brand-light active:bg-brand focus:ring-4 ring-brand ring-opacity-50 "
+  to="/"
+/>
+`;
+
+exports[`text button rendering tests renders correctly as a Link when disabled 1`] = `
+<BaseButton
+  className="button bg-none text-gray-400 cursor-default "
+  disabled={true}
+  to="/"
+/>
+`;
+
+exports[`text button rendering tests renders correctly as a Link with a children 1`] = `
+<BaseButton
+  className="button bg-none text-brand transition-colors duration-200 hover:bg-opacity-30 hover:bg-brand-light active:bg-brand focus:ring-4 ring-brand ring-opacity-50 "
+  to="/"
+>
+  dummy text
+</BaseButton>
+`;
+
+exports[`text button rendering tests renders correctly when disabled 1`] = `
+<BaseButton
+  className="button bg-none text-gray-400 cursor-default "
+  disabled={true}
+/>
+`;
+
+exports[`text button rendering tests renders correctly with a children 1`] = `
+<BaseButton
+  className="button bg-none text-brand transition-colors duration-200 hover:bg-opacity-30 hover:bg-brand-light active:bg-brand focus:ring-4 ring-brand ring-opacity-50 "
+>
+  dummy text
+</BaseButton>
+`;
+
+exports[`text button rendering tests renders correctly without props 1`] = `
+<BaseButton
+  className="button bg-none text-brand transition-colors duration-200 hover:bg-opacity-30 hover:bg-brand-light active:bg-brand focus:ring-4 ring-brand ring-opacity-50 "
+/>
+`;
