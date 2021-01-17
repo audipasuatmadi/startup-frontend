@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles'
 import { yellow } from '@material-ui/core/colors'
+import Navbar from '../components/navbars/Navbar'
 
 const theme = createMuiTheme({
   palette: {
@@ -15,6 +16,7 @@ const theme = createMuiTheme({
 function MyApp({ Component, pageProps }) {
   return (
   <ThemeProvider theme={theme}>
+    <Navbar />
     <Component {...pageProps} />
   </ThemeProvider>
   )
