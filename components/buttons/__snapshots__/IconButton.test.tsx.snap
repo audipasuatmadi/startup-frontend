@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon button rendering tests renders correctly as a Link 1`] = `
+<BaseButton
+  className="p-1 rounded outline-none focus:outline-none flex items-center justify-center bg-gray-500 bg-opacity-0 hover:bg-opacity-50 transition-all focus:ring-2 ring-brand ring-opacity-50 active:bg-gray-300"
+>
+  <Image
+    height={32}
+    src="/assets/svgs/ic-search.svg"
+    width={32}
+  />
+</BaseButton>
+`;
+
+exports[`icon button rendering tests renders correctly as a Link when disabled 1`] = `
+<BaseButton
+  className="p-1 rounded outline-none focus:outline-none flex items-center justify-center cursor-not-allowed"
+  disabled={true}
+>
+  <Image
+    height={32}
+    src="/assets/svgs/ic-search.svg"
+    width={32}
+  />
+</BaseButton>
+`;
+
+exports[`icon button rendering tests renders correctly when disabled 1`] = `
+<BaseButton
+  className="p-1 rounded outline-none focus:outline-none flex items-center justify-center cursor-not-allowed"
+  disabled={true}
+>
+  <Image
+    height={32}
+    src="/assets/svgs/ic-search.svg"
+    width={32}
+  />
+</BaseButton>
+`;
+
+exports[`icon button rendering tests renders correctly without props 1`] = `
+<BaseButton
+  className="p-1 rounded outline-none focus:outline-none flex items-center justify-center bg-gray-500 bg-opacity-0 hover:bg-opacity-50 transition-all focus:ring-2 ring-brand ring-opacity-50 active:bg-gray-300"
+>
+  <Image
+    height={32}
+    src="/assets/svgs/ic-search.svg"
+    width={32}
+  />
+</BaseButton>
+`;
