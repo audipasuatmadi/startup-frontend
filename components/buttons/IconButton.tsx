@@ -21,7 +21,7 @@ const IconButton = ({disabled, className, icon: Icon, ...otherProps}: IconButton
   }`;
 
   return (
-    <BaseButton className={`${finalStyles}${className? ` ${className}`: ''}`} disabled={disabled}>
+    <BaseButton className={`${finalStyles}${className? ` ${className}`: ''}`} disabled={disabled} {...otherProps}>
       {Icon}
     </BaseButton>
   )
