@@ -11,7 +11,7 @@ export interface ButtonProps {
   className?: string;
   type?: 'button' | 'submit' | 'reset';
 
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
   rounded?: boolean;
   outlined?: boolean;

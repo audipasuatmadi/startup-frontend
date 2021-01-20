@@ -8,7 +8,7 @@ export interface IconButtonProps {
   className?: string;
   type?: 'button' | 'submit' | 'reset';
 
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   icon:  React.FunctionComponent<React.SVGProps<SVGSVGElement>> | (() => JSX.Element) | JSX.Element;
 }
 

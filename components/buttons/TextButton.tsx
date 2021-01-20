@@ -2,6 +2,7 @@ import React from 'react';
 import BaseButton from './BaseButton';
 
 export interface TextButtonProps {
+  name?: string
   disabled?: boolean;
   href?: string;
   children?: any;
@@ -9,7 +10,7 @@ export interface TextButtonProps {
   className?: string;
   type?: 'button' | 'submit' | 'reset';
 
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   theme?: 'brand' | 'gray';
 }
 
