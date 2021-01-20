@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dropdown component render tests should render correctly with childrens disabled, shallowy 1`] = `
+<div
+  className="relative inline-block"
+>
+  <Button
+    onClick={[Function]}
+    theme="brand"
+  >
+    Test Button
+  </Button>
+  <ul
+    className="w-full bg-gray-200 rounded absolute shadow-md invisible"
+  >
+    <DropdownItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Item 1
+    </DropdownItem>
+    <DropdownItem
+      disabled={true}
+    >
+      Item 2
+    </DropdownItem>
+    <DropdownItem>
+      Item 3
+    </DropdownItem>
+  </ul>
+</div>
+`;
+
+exports[`dropdown component render tests should render correctly with childrens, opened 1`] = `
+<div
+  className="relative inline-block"
+>
+  <Button
+    onClick={[Function]}
+    theme="brand"
+  >
+    Test Button
+  </Button>
+  <ul
+    className="w-full bg-gray-200 rounded absolute shadow-md"
+  >
+    <DropdownItem>
+      Item 1
+    </DropdownItem>
+    <DropdownItem>
+      Item 2
+    </DropdownItem>
+    <DropdownItem>
+      Item 3
+    </DropdownItem>
+  </ul>
+</div>
+`;
+
+exports[`dropdown component render tests should render correctly with childrens, shallowy 1`] = `
+<div
+  className="relative inline-block"
+>
+  <Button
+    onClick={[Function]}
+    theme="brand"
+  >
+    Test Button
+  </Button>
+  <ul
+    className="w-full bg-gray-200 rounded absolute shadow-md invisible"
+  >
+    <DropdownItem>
+      Item 1
+    </DropdownItem>
+    <DropdownItem>
+      Item 2
+    </DropdownItem>
+    <DropdownItem>
+      Item 3
+    </DropdownItem>
+  </ul>
+</div>
+`;
+
+exports[`dropdown component render tests should render correctly without childrens, shallowy 1`] = `
+<div
+  className="relative inline-block"
+>
+  <Button
+    onClick={[Function]}
+    theme="brand"
+  >
+    Test Button
+  </Button>
+  <ul
+    className="w-full bg-gray-200 rounded absolute shadow-md invisible"
+  />
+</div>
+`;

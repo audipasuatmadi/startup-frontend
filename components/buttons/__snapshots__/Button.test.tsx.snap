@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`button rendering test renders correctly as a Link 1`] = `
+<BaseButton
+  className="button bg-brand text-white hover:bg-brand-dark active:bg-brand-light focus:ring-4 ring-brand ring-opacity-50 undefined"
+  href="/"
+/>
+`;
+
+exports[`button rendering test renders correctly as a Link when disabled 1`] = `
+<BaseButton
+  className="button button-disabled bg-brand-dark text-white undefined"
+  disabled={true}
+  href="/"
+/>
+`;
+
+exports[`button rendering test renders correctly as a Link with a children 1`] = `
+<BaseButton
+  className="button bg-brand text-white hover:bg-brand-dark active:bg-brand-light focus:ring-4 ring-brand ring-opacity-50 undefined"
+  href="/"
+>
+  test text
+</BaseButton>
+`;
+
+exports[`button rendering test renders correctly when disabled 1`] = `
+<BaseButton
+  className="button button-disabled bg-brand-dark text-white undefined"
+  disabled={true}
+/>
+`;
+
+exports[`button rendering test renders correctly when rounded 1`] = `
+<BaseButton
+  className="button rounded-full bg-brand text-white hover:bg-brand-dark active:bg-brand-light focus:ring-4 ring-brand ring-opacity-50 undefined"
+/>
+`;
+
+exports[`button rendering test renders correctly with a children 1`] = `
+<BaseButton
+  className="button bg-brand text-white hover:bg-brand-dark active:bg-brand-light focus:ring-4 ring-brand ring-opacity-50 undefined"
+>
+  test text
+</BaseButton>
+`;
+
+exports[`button rendering test renders correctly with brand theme 1`] = `
+<BaseButton
+  className="button bg-brand text-white hover:bg-brand-dark active:bg-brand-light focus:ring-4 ring-brand ring-opacity-50 undefined"
+/>
+`;
+
+exports[`button rendering test renders correctly without args & no theme 1`] = `
+<BaseButton
+  className="button bg-brand text-white hover:bg-brand-dark active:bg-brand-light focus:ring-4 ring-brand ring-opacity-50 undefined"
+/>
+`;

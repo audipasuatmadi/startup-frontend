@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DropdownItem rendering tests should render properly 1`] = `
+<li
+  className="list-none"
+>
+  <TextButton
+    className="block w-full"
+    theme="brand"
+  />
+</li>
+`;
