@@ -51,7 +51,6 @@ const Navbar = () => {
         <li className='sm:space-y-0 md:space-y-0 '>
           <IconButton icon={searchIcon} />
         </li>
-        {/* {userData && <li className='z-50'>{profileDropdown}</li>} */}
         <li>
           <IconButton onClick={toggleIsMenuOpened} icon={hamburgerIcon} />
         </li>
