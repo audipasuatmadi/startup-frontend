@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar rendering tests should render the main components correctly 1`] = `
+<nav
+  className="fixed w-screen flex items-center py-2 shadow h-14"
+>
+  <Link
+    href="/"
+  >
+    <a
+      className="ml-8 whitespace-nowrap text-brand font-bold"
+    >
+      Elites Bible
+    </a>
+  </Link>
+  <TextField
+    className="hidden md:inline-block md:w-3/12 lg:w-5/12 ml-12 mr-2"
+    id="searchBar"
+    leadingIcon={
+      <Image
+        alt="search bar image"
+        height={25}
+        src="/assets/svgs/ic-search.svg"
+        width={25}
+      />
+    }
+    name="searchBar"
+    placeholder="Pencarian..."
+    solid={true}
+    type="text"
+  />
+  <ul
+    className="ml-auto md:hidden mr-5 whitespace-nowrap flex items-center"
+  >
+    <li
+      className="sm:space-y-0 md:space-y-0 "
+    >
+      <IconButton
+        icon={
+          <Image
+            alt="search bar image"
+            height={25}
+            src="/assets/svgs/ic-search.svg"
+            width={25}
+          />
+        }
+      />
+    </li>
+    <li>
+      <IconButton
+        icon={
+          <Image
+            alt="search bar image"
+            height={25}
+            src="/assets/svgs/ic-hamburger-menu.svg"
+            width={25}
+          />
+        }
+        onClick={[Function]}
+      />
+    </li>
+  </ul>
+  <div
+    className="fixed md:static w-screen h-screen top-0 mt-14 md:mt-0 md:top-auto md:w-auto md:h-auto sm:ml-auto bg-gray-200 md:bg-transparent hidden md:flex justify-center items-center"
+  >
+    <ul
+      className="flex flex-col space-y-8 md:space-y-0 w-max md:ml-auto md:flex-row md:space-x-10 md:mr-14 items-center"
+    >
+      <NavigationItem
+        href="/"
+      >
+        Beranda
+      </NavigationItem>
+      <NavigationItem
+        href="/trending"
+      >
+        Trending
+      </NavigationItem>
+      <NavigationItem
+        href="/articles"
+      >
+        Artikel
+      </NavigationItem>
+      <NavigationItem
+        href="/courses"
+      >
+        Courses
+      </NavigationItem>
+      <NavigationItem>
+        <Button
+          href="/login"
+          rounded={true}
+          theme="brand"
+        >
+          Bergabung
+        </Button>
+      </NavigationItem>
+    </ul>
+  </div>
+</nav>
+`;
+
+exports[`Navbar rendering tests should render the right buttons when user is not logged out 1`] = `
+<nav
+  className="fixed w-screen flex items-center py-2 shadow h-14"
+>
+  <Link
+    href="/"
+  >
+    <a
+      className="ml-8 whitespace-nowrap text-brand font-bold"
+    >
+      Elites Bible
+    </a>
+  </Link>
+  <TextField
+    className="hidden md:inline-block md:w-3/12 lg:w-5/12 ml-12 mr-2"
+    id="searchBar"
+    leadingIcon={
+      <Image
+        alt="search bar image"
+        height={25}
+        src="/assets/svgs/ic-search.svg"
+        width={25}
+      />
+    }
+    name="searchBar"
+    placeholder="Pencarian..."
+    solid={true}
+    type="text"
+  />
+  <ul
+    className="ml-auto md:hidden mr-5 whitespace-nowrap flex items-center"
+  >
+    <li
+      className="sm:space-y-0 md:space-y-0 "
+    >
+      <IconButton
+        icon={
+          <Image
+            alt="search bar image"
+            height={25}
+            src="/assets/svgs/ic-search.svg"
+            width={25}
+          />
+        }
+      />
+    </li>
+    <li>
+      <IconButton
+        icon={
+          <Image
+            alt="search bar image"
+            height={25}
+            src="/assets/svgs/ic-hamburger-menu.svg"
+            width={25}
+          />
+        }
+        onClick={[Function]}
+      />
+    </li>
+  </ul>
+  <div
+    className="fixed md:static w-screen h-screen top-0 mt-14 md:mt-0 md:top-auto md:w-auto md:h-auto sm:ml-auto bg-gray-200 md:bg-transparent hidden md:flex justify-center items-center"
+  >
+    <ul
+      className="flex flex-col space-y-8 md:space-y-0 w-max md:ml-auto md:flex-row md:space-x-10 md:mr-14 items-center"
+    >
+      <NavigationItem
+        href="/"
+      >
+        Beranda
+      </NavigationItem>
+      <NavigationItem
+        href="/trending"
+      >
+        Trending
+      </NavigationItem>
+      <NavigationItem
+        href="/articles"
+      >
+        Artikel
+      </NavigationItem>
+      <NavigationItem
+        href="/courses"
+      >
+        Courses
+      </NavigationItem>
+      <NavigationItem>
+        <Button
+          href="/login"
+          rounded={true}
+          theme="brand"
+        >
+          Bergabung
+        </Button>
+      </NavigationItem>
+    </ul>
+  </div>
+</nav>
+`;
