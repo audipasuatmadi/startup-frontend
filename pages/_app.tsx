@@ -1,23 +1,15 @@
 import '../styles/globals.css'
 import { Provider } from 'react-redux'
 import { useStore } from '../states/Store'
-import { useEffect } from 'react'
+import Navbar from '../components/navbars/Navbar'
 
 
 function MyApp({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState)
 
-  useEffect(() => {
-        // Remove the server-side injected CSS.
-      const jssStyles = document.querySelector('#jss-server-side');
-      if (jssStyles) {
-        jssStyles.parentElement.removeChild(jssStyles);
-      }
-    
-  }, [])
-
   return (
     <Provider store={store}>
+      <Navbar />
       <Component {...pageProps} />
     </Provider>
   )

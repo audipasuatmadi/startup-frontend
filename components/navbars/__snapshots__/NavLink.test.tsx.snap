@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavLink rendering tests should render correcly if current route is a children of the main route 1`] = `
+<Link
+  href="/home"
+>
+  <a
+    className="test  bg-red-900"
+  >
+    Dummy Children
+  </a>
+</Link>
+`;
+
+exports[`NavLink rendering tests should render correctly if current route does match 1`] = `
+<Link
+  href="/home"
+>
+  <a
+    className="test  bg-red-900"
+  >
+    Dummy Children
+  </a>
+</Link>
+`;
+
+exports[`NavLink rendering tests should render correctly if current route does not match 1`] = `
+<Link
+  href="/home"
+>
+  <a
+    className="test"
+  >
+    Dummy Children
+  </a>
+</Link>
+`;

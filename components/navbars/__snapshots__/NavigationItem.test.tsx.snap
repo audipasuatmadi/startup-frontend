@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`navigationitem rendering tests should render other component correctly 1`] = `
+<li
+  className="text-center"
+  style={
+    Object {
+      "height": "max-content",
+    }
+  }
+>
+  <Button
+    theme="brand"
+  >
+    hello
+  </Button>
+</li>
+`;
