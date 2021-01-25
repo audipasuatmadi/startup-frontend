@@ -20,6 +20,8 @@ export interface TextFieldProps {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
 
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+
   leadingIcon?: JSX.Element;
   trailingIcon?: JSX.Element;
 }
@@ -67,6 +69,7 @@ const TextField = ({
   helperText,
   leadingIcon,
   onChange,
+  onKeyPress,
   placeholder,
   solid,
   value,
@@ -112,6 +115,7 @@ const TextField = ({
               leadingIcon ? ' ml-2' : ''
             }${trailingIcon ? ' mr-2' : ''}`}
             onChange={disabled ? undefined : onChange}
+            onKeyPress={disabled ? undefined : onKeyPress}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             value={value}
@@ -128,7 +132,6 @@ const TextField = ({
                 htmlFor={id}>
                 {helperText}
               </label>
-              <br />
             </>
           )}
     </React.Fragment>

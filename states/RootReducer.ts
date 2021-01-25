@@ -1,14 +1,16 @@
-import { combineReducers } from "redux"
-
-const dummyReducer = (state = 'nice', action) => {
-  return state
-}
+import { combineReducers } from 'redux';
+import UserReducer from '../lib/user/UserReducer';
 
 const RootReducer = combineReducers({
-  njir: dummyReducer
-})
+  userData: UserReducer,
+});
 
+export type RootState = ReturnType<typeof RootReducer>;
 
-export type RootState = ReturnType<typeof RootReducer>
+export interface BaseActionType {
+  type: string;
+  payload?: any;
+  error?: boolean;
+}
 
-export default RootReducer
+export default RootReducer;
