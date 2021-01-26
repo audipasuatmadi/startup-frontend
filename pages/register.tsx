@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from 'react';
+import React, { useReducer } from 'react';
 import Head from 'next/head';
 import { useFormik } from 'formik';
 import { UserRegisterForm } from '../lib/user/userTypes';
@@ -9,6 +9,11 @@ import Image from 'next/image';
 import IconButton from '../components/buttons/IconButton';
 import * as Yup from 'yup';
 import { onEnterFocusToNextElement } from '../lib/utils/TextFieldUtil';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../lib/user/UserActions';
+import { RootState } from '../states/RootReducer';
+import ClipLoader from 'react-spinners/ClipLoader';
+import Modal from '../components/modals/Modal';
 
 const register = () => {
   const [showPassword, toggleShowPassword] = useReducer(
@@ -18,6 +23,14 @@ const register = () => {
   const [showPasswordConfirm, toggleShowPasswordConfirm] = useReducer(
     (state) => !state,
     false
+  );
+
+  const dispatch = useDispatch();
+  const userDataIsLoading = useSelector(
+    (rootState: RootState) => rootState.userData
+  );
+  const errorOccuredInRegistering = useSelector(
+    (rootState: RootState) => rootState.registerError
   );
 
   const initialValues: UserRegisterForm = {
@@ -42,7 +55,11 @@ const register = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => console.log(values),
+    validateOnChange: false,
+    validateOnBlur: false,
+    onSubmit: ({ name, username, password }) => {
+      dispatch(registerUser({ name, username, password }));
+    },
   });
 
   return (
@@ -50,6 +67,12 @@ const register = () => {
       <Head>
         <title>Registrasi | Elites Bible</title>
       </Head>
+
+      {userDataIsLoading === 'loading' && (
+        <Modal isLabelOnly>
+          <ClipLoader color='#fff' loading size={150} />
+        </Modal>
+      )}
 
       <div className='container pt-32 md:pt-44 mx-auto px-6 flex flex-col md:flex-row'>
         <div className='w-full flex flex-col items-center'>
@@ -70,6 +93,9 @@ const register = () => {
             className='mt-4'
             onSubmit={(e) => {
               e.preventDefault();
+
+              if (userDataIsLoading === 'loading') return;
+
               formik.handleSubmit(e);
             }}
             autoComplete='off'>
@@ -79,8 +105,14 @@ const register = () => {
               type='text'
               labelText='nama'
               className='w-full'
-              error={formik.errors.name && formik.touched.name}
-              helperText={formik.touched.name && formik.errors.name}
+              error={
+                (formik.errors.name && formik.touched.name) ||
+                (errorOccuredInRegistering.name && true)
+              }
+              helperText={
+                (formik.touched.name && formik.errors.name) ||
+                errorOccuredInRegistering.name
+              }
               solid
               onChange={formik.handleChange}
               onKeyPress={onEnterFocusToNextElement()}
@@ -93,8 +125,14 @@ const register = () => {
               type='text'
               labelText='username'
               className='w-full'
-              error={formik.errors.username && formik.touched.username}
-              helperText={formik.touched.username && formik.errors.username}
+              error={
+                (formik.errors.username && formik.touched.username) ||
+                (errorOccuredInRegistering.username && true)
+              }
+              helperText={
+                (formik.touched.username && formik.errors.username) ||
+                errorOccuredInRegistering.username
+              }
               solid
               onKeyPress={onEnterFocusToNextElement()}
               onChange={(e) => {
@@ -111,8 +149,14 @@ const register = () => {
               labelText='password'
               className='w-full'
               solid
-              error={formik.errors.password && formik.touched.password}
-              helperText={formik.touched.password && formik.errors.password}
+              error={
+                (formik.errors.password && formik.touched.password) ||
+                (errorOccuredInRegistering.password && true)
+              }
+              helperText={
+                (formik.touched.password && formik.errors.password) ||
+                errorOccuredInRegistering.password
+              }
               onChange={formik.handleChange}
               value={formik.values.password}
               onKeyPress={onEnterFocusToNextElement(2)}
@@ -162,7 +206,11 @@ const register = () => {
               }
             />
 
-            <Button className='mt-8 w-full' type='submit'>
+            <p className='text-red-500 mt-4'>
+              {errorOccuredInRegistering.otherMessage}
+            </p>
+
+            <Button className='mt-4 w-full' type='submit'>
               Bergabung
             </Button>
             <Link href='/login'>

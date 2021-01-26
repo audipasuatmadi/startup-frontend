@@ -1,11 +1,11 @@
-import { UserData } from '../../apis/UserAPI';
-import { UserAction, UserReducerType } from './userTypes';
+import { UserAction, UserReducerType, UserRegisterErrorData, RegisterErrorAction } from './userTypes';
 import { ACTION_TYPES } from './UserActions';
 
-const initialState: UserReducerType = 'loading';
+const userReducerInitialState: UserReducerType = 'logged_out';
+const registerErrorReducerInitialState: UserRegisterErrorData = {}
 
-const UserReducer = (
-  state: UserReducerType = initialState,
+export const UserReducer = (
+  state: UserReducerType = userReducerInitialState,
   action: UserAction
 ): UserReducerType => {
   switch (action.type) {
@@ -23,4 +23,13 @@ const UserReducer = (
   }
 };
 
-export default UserReducer;
+export const RegisterErrorReducer = (state: UserRegisterErrorData = registerErrorReducerInitialState, action: RegisterErrorAction): UserRegisterErrorData => {
+  switch (action.type) {
+    case ACTION_TYPES.REGISTER_ERROR_OCCURED:
+      return action.payload
+    case ACTION_TYPES.REGISTER_SUCCESS:
+      return {}
+    default:
+      return state;
+  }
+}
