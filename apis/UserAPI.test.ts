@@ -5,6 +5,7 @@ import {
   UserCredentials,
   isRegisterSuccessResponse,
   isRegisterErrorResponse,
+  UserRegisterErrorData,
 } from '../lib/user/userTypes';
 
 jest.mock('./Index.ts');
@@ -55,5 +56,28 @@ describe('User Register Tests', () => {
     } else if (isRegisterSuccessResponse(data)) {
       expect(true).toBe(false);
     }
+    mockedRegisterMethod.mockClear();
+  });
+
+  it("should return an AxiosError with the right credentials if server is can't be reached", async () => {
+    mockedRegisterMethod.mockReturnValue(Promise.reject(new Error()));
+    const data = (await UserAPI.register(fakeUserCredential)) as AxiosError<
+      UserRegisterErrorData
+    >;
+    expect(mockedRegisterMethod).toHaveBeenCalled();
+    expect(JSON.stringify(data)).toMatch(JSON.stringify({
+      config: {},
+      isAxiosError: true,
+      message: 'Service Unavailable',
+      name: 'Service Unavailable',
+      toJSON: () => ({}),
+      response: {
+        status: 503,
+        statusText: 'Service Unavailable',
+        data: { otherMessage: '503: Service Unavailable' },
+        headers: {},
+        config: {},
+      },
+    }));
   });
 });

@@ -6,6 +6,21 @@ import {
   UserCredentials,
 } from '../lib/user/userTypes';
 
+const unreachedServerError: AxiosError<UserRegisterErrorData> = {
+  config: {},
+  isAxiosError: true,
+  message: 'Service Unavailable',
+  name: 'Service Unavailable',
+  toJSON: () => ({}),
+  response: {
+    status: 503,
+    statusText: 'Service Unavailable',
+    data: { otherMessage: '503: Service Unavailable' },
+    headers: {},
+    config: {},
+  },
+};
+
 export default {
   async register(userCredentials: UserCredentials) {
     let response:
@@ -21,6 +36,9 @@ export default {
         )) as AxiosResponse<UserRegisterSuccessData>;
     } catch (e) {
       response = e as AxiosError<UserRegisterErrorData>;
+      if (!response.response) {
+        response = unreachedServerError;
+      }
     }
     return response;
   },

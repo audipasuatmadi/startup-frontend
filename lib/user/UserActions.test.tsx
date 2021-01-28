@@ -154,5 +154,8 @@ describe('UserActions Thunk Tests', () => {
       );
       expect(mockedErrorOccuredInRegisteringUser).toHaveBeenCalled();
     });
+
+    
+
   });
 });
