@@ -107,7 +107,7 @@ describe('UserActions Thunk Tests', () => {
       expect(dispatch).toHaveBeenCalled();
       expect(userHasLoggedInMock).toHaveBeenCalled();
 
-      mockedUserRegisterAPI.mockClear()
+      mockedUserRegisterAPI.mockClear();
     });
 
     it('should call localstorage store function to store tokens to localStorage if succeed', async () => {
@@ -141,13 +141,18 @@ describe('UserActions Thunk Tests', () => {
       const dispatch = jest.fn();
 
       mockedUserRegisterAPI.mockReturnValue(
-        Promise.resolve({isAxiosError: true, response: {data: dummyErrorRegisterData}})
+        Promise.resolve({
+          isAxiosError: true,
+          response: { data: dummyErrorRegisterData },
+        })
       );
       await registerUserCall(dispatch, jest.fn(), null);
 
-      expect(dispatch).toHaveBeenCalledTimes(3)
-      expect(dispatch).toHaveBeenCalledWith(UserActions.errorOccuredInRegisteringUser(dummyErrorRegisterData))
-      expect(mockedErrorOccuredInRegisteringUser).toHaveBeenCalled()
+      expect(dispatch).toHaveBeenCalledTimes(3);
+      expect(dispatch).toHaveBeenCalledWith(
+        UserActions.errorOccuredInRegisteringUser(dummyErrorRegisterData)
+      );
+      expect(mockedErrorOccuredInRegisteringUser).toHaveBeenCalled();
     });
   });
 });
