@@ -1,6 +1,7 @@
-import UserAPI, { UserCredentials } from "./UserAPI"
+import UserAPI from "./UserAPI"
 import axios from './Index'
 import { AxiosError } from "axios"
+import { UserCredentials, isRegisterSuccessResponse, isRegisterErrorResponse } from "../lib/user/userTypes"
 
 jest.mock('./Index.ts')
 
@@ -21,24 +22,24 @@ describe('User Register Tests', () => {
     mockedRegisterMethod.mockClear()
   })
 
-  it('should return a status code if it works', async () => {
+  it('should return an AxiosResponse with data if it works', async () => {
     mockedRegisterMethod.mockReturnValue(Promise.resolve({status: 200}))
 
     const data = await UserAPI.register(fakeUserCredential)
     expect(mockedRegisterMethod).toHaveBeenCalled()
     expect(mockedRegisterMethod).toHaveBeenCalledWith("/users", fakeUserCredential)
-    expect(data).toEqual(200)
+    expect(data).toEqual({status: 200})
   })
 
-  it('should return a status code if it doesn\'t works & no data supplied', async () => {
-    mockedRegisterMethod.mockReturnValue(Promise.reject(new Error('dummy error')))
-
+  it('should return an AxiosError if it doesn\'t works & error details supplied', async () => {
+    mockedRegisterMethod.mockReturnValue(Promise.reject({isAxiosError: true, response: {data: {}}}))
     const data = await UserAPI.register(fakeUserCredential)
-    expect(mockedRegisterMethod).toHaveBeenCalled()
-    expect(mockedRegisterMethod).toHaveBeenCalledWith("/users", fakeUserCredential)
-    expect(data).toEqual(500)
+    if (isRegisterErrorResponse(data)) {
+      expect(mockedRegisterMethod).toHaveBeenCalled()
+      expect(mockedRegisterMethod).toHaveBeenCalledWith("/users", fakeUserCredential)
+      expect(JSON.stringify(data.response)).toMatch(JSON.stringify({data:{}}));
+    } else if (isRegisterSuccessResponse(data)) {
+      expect(true).toBe(false)
+    }
   })
-
-
-  // TODO: implement the data test once you know the backend return data
 })

@@ -26,7 +26,7 @@ export const registerUser = (
   userCredentials: UserCredentials
 ): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
   dispatch(userDataIsLoading());
-
+  
   const registerServiceResponse = await UserAPI.register(userCredentials);
 
   if (isRegisterSuccessResponse(registerServiceResponse)) {

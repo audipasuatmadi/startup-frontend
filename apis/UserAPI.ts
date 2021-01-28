@@ -6,13 +6,13 @@ import { UserRegisterSuccessData, UserRegisterErrorData, UserCredentials } from 
 
 export default {
   async register(userCredentials: UserCredentials) {
-    let status: AxiosResponse<UserRegisterSuccessData> | AxiosError<UserRegisterErrorData>;
+    let response: AxiosResponse<UserRegisterSuccessData> | AxiosError<UserRegisterErrorData>;
 
     try {
-      status = await axios.post('/users', userCredentials).then((registerResponse: AxiosResponse<UserRegisterSuccessData>) => registerResponse)
+      response = await axios.post('/users', userCredentials).then((registerResponse: AxiosResponse<UserRegisterSuccessData>) => registerResponse) as AxiosResponse<UserRegisterSuccessData>
     } catch (e) {
-      status = e as AxiosError<UserRegisterErrorData>
+      response = e as AxiosError<UserRegisterErrorData>
     }
-    return status
+    return response
   }
 }
