@@ -1,0 +1,45 @@
+import axios from './Index';
+import { AxiosError, AxiosResponse } from 'axios';
+import {
+  RegistrationSuccessResponse,
+  RegistrationFailedResponse,
+  UserCredentials,
+} from '../lib/user/userTypes';
+
+const unreachedServerError: AxiosError<RegistrationFailedResponse> = {
+  config: {},
+  isAxiosError: true,
+  message: 'Service Unavailable',
+  name: 'Service Unavailable',
+  toJSON: () => ({}),
+  response: {
+    status: 503,
+    statusText: 'Service Unavailable',
+    data: { otherMessage: '503: Server Unavailable'},
+    headers: {},
+    config: {},
+  },
+};
+
+export default {
+  async register(userCredentials: UserCredentials) {
+    let response:
+      | AxiosResponse<RegistrationSuccessResponse>
+      | AxiosError<RegistrationFailedResponse>;
+
+    try {
+      response = (await axios
+        .post('/users', userCredentials)
+        .then(
+          (registerResponse: AxiosResponse<RegistrationSuccessResponse>) =>
+            registerResponse
+        )) as AxiosResponse<RegistrationSuccessResponse>;
+    } catch (e) {
+      response = e as AxiosError<RegistrationFailedResponse>;
+      if (!response.response) {
+        response = unreachedServerError;
+      }
+    }
+    return response;
+  },
+};

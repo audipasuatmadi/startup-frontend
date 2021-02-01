@@ -154,6 +154,5 @@ exports[`textfield rendering tests renders correctly with helper text 1`] = `
   >
     txt
   </label>
-  <br />
 </Fragment>
 `;

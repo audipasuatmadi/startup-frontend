@@ -30,7 +30,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className='fixed w-screen flex items-center py-2 shadow h-14'>
+    <nav className='fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50'>
       <Link href='/'>
         <a className='ml-8 whitespace-nowrap text-brand font-bold'>
           Elites Bible
