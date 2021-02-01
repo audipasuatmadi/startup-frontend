@@ -18,10 +18,10 @@ export interface UserAction extends BaseActionType {
 }
 
 export interface RegisterErrorAction extends BaseActionType {
-  payload: UserRegisterErrorData;
+  payload: RegistrationFailedResponse;
 }
 
-export interface UserRegisterSuccessData extends UserData {
+export interface RegistrationSuccessResponse extends UserData {
   accessToken: string;
   refreshToken: string;
 }
@@ -30,7 +30,7 @@ export interface UserRegisterForm extends UserCredentials {
   passwordConfirm: string;
 }
 
-export interface UserRegisterErrorData {
+export interface RegistrationFailedResponse {
   name?: string;
   username?: string;
   password?: string;
@@ -40,16 +40,30 @@ export interface UserRegisterErrorData {
 export type UserReducerType = UserData | 'loading' | 'error' | 'logged_out';
 
 export const isRegisterSuccessResponse = (
-  obj:
-    | AxiosResponse<UserRegisterSuccessData>
-    | AxiosError<UserRegisterErrorData>
-): obj is AxiosResponse<UserRegisterSuccessData> =>
-  (obj as AxiosResponse<UserRegisterSuccessData>).status >= 200 &&
-  (obj as AxiosResponse<UserRegisterSuccessData>).status < 300;
+  obj: any
+): obj is AxiosResponse<RegistrationSuccessResponse> => {
+  if (typeof obj !== 'object') return false;
+  if ('status' in obj && 'data' in obj) {
+    if ('accessToken' in obj.data && 'refreshToken' in obj.data && 'name' in obj.data && 'username' in obj.data) return true;
+    return false;
+  }
+  return false;
+}
 
+// TODO: make userTypes tests
 export const isRegisterErrorResponse = (
-  obj:
-    | AxiosResponse<UserRegisterSuccessData>
-    | AxiosError<UserRegisterErrorData>
-): obj is AxiosError<UserRegisterErrorData> =>
-  (obj as AxiosError<UserRegisterErrorData>).isAxiosError === true;
+  obj: any
+): obj is AxiosError<RegistrationFailedResponse> => {
+  if (typeof obj !== 'object') return false;
+  if ('isAxiosError' in obj && 'response' in obj) {
+    if ('username' in obj.response.data || 'password' in obj.response.data || 'name' in obj.response.data || 'otherMessage' in obj.response.data) return true;
+    return false 
+  }
+  return false
+}
+
+export const isUserDataType = (obj: any): obj is UserData => {
+  if (typeof obj !== 'object') return false;
+  if ('name' in obj && 'username' in obj) return true;
+  return false;
+};

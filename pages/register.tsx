@@ -1,7 +1,8 @@
 import React, { useReducer } from 'react';
 import Head from 'next/head';
 import { useFormik } from 'formik';
-import { UserRegisterForm } from '../lib/user/userTypes';
+import {useRouter} from 'next/router'
+import { UserRegisterForm, isUserDataType } from '../lib/user/userTypes';
 import TextField from '../components/inputfields/TextField';
 import Button from '../components/buttons/Button';
 import Link from 'next/link';
@@ -15,7 +16,11 @@ import { RootState } from '../states/RootReducer';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Modal from '../components/modals/Modal';
 
+
+
 const register = () => {
+  const router = useRouter()
+
   const [showPassword, toggleShowPassword] = useReducer(
     (state) => !state,
     false
@@ -26,7 +31,7 @@ const register = () => {
   );
 
   const dispatch = useDispatch();
-  const userDataIsLoading = useSelector(
+  const userDataState = useSelector(
     (rootState: RootState) => rootState.userData
   );
   const errorOccuredInRegistering = useSelector(
@@ -62,13 +67,18 @@ const register = () => {
     },
   });
 
+  if (isUserDataType(userDataState)) {
+    router.replace('/')
+    return null;
+  }
+
   return (
     <div className='w-full lg:px-64'>
       <Head>
         <title>Registrasi | Elites Bible</title>
       </Head>
 
-      {userDataIsLoading === 'loading' && (
+      {userDataState === 'loading' && (
         <Modal isLabelOnly>
           <ClipLoader color='#fff' loading size={150} />
         </Modal>
@@ -94,7 +104,7 @@ const register = () => {
             onSubmit={(e) => {
               e.preventDefault();
 
-              if (userDataIsLoading === 'loading') return;
+              if (userDataState === 'loading') return;
 
               formik.handleSubmit(e);
             }}

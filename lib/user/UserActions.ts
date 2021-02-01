@@ -4,7 +4,7 @@ import {
   UserCredentials,
   UserData,
   RegisterErrorAction,
-  UserRegisterErrorData,
+  RegistrationFailedResponse,
 } from './userTypes';
 import UserAPI from '../../apis/UserAPI';
 import { ThunkAction } from 'redux-thunk';
@@ -28,7 +28,6 @@ export const registerUser = (
   dispatch(userDataIsLoading());
 
   const registerServiceResponse = await UserAPI.register(userCredentials);
-
   if (isRegisterSuccessResponse(registerServiceResponse)) {
     const {
       name,
@@ -66,7 +65,7 @@ export const errorOccuredInGettingUser = (): UserAction => ({
 });
 
 export const errorOccuredInRegisteringUser = (
-  errorDetails: UserRegisterErrorData
+  errorDetails: RegistrationFailedResponse
 ): RegisterErrorAction => ({
   type: ACTION_TYPES.REGISTER_ERROR_OCCURED,
   payload: errorDetails,

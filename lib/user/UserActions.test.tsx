@@ -1,6 +1,6 @@
 import * as UserActions from './UserActions';
 import UserAPI from '../../apis/UserAPI';
-import { UserRegisterErrorData } from './userTypes';
+import { RegistrationFailedResponse, RegistrationSuccessResponse } from './userTypes';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../states/RootReducer';
 import { Action } from 'redux';
@@ -54,6 +54,21 @@ describe('UserActions Action Creator Tests', () => {
 jest.mock('../../apis/UserAPI.ts');
 jest.mock('../utils/LocalStorageUtil');
 
+const dummyRegisterErrorReturnValue: RegistrationFailedResponse = {
+  otherMessage: 'something is wrong'
+  
+}
+
+const dummyRegisterSuccessReturnValue = {
+  status: 200,
+  data: {
+    accessToken: 'dummy access token',
+    refreshToken: 'dummy refresh token',
+    name: 'John Doe',
+    username: 'johndoe'
+  }
+}
+
 describe('UserActions Thunk Tests', () => {
   describe('registerUser Thunk Tests', () => {
     let registerUserCall: ThunkAction<
@@ -70,7 +85,7 @@ describe('UserActions Thunk Tests', () => {
 
     it('should dispatch userDataIsLoding before everything', async () => {
       mockedUserRegisterAPI.mockReturnValue(
-        Promise.resolve({ response: { data: {} } })
+        Promise.resolve(dummyRegisterSuccessReturnValue)
       );
       const userDataIsLoadingMock = jest.spyOn(
         UserActions,
@@ -93,10 +108,7 @@ describe('UserActions Thunk Tests', () => {
 
     it('should dispatch userHasLoggedIn if it succeed', async () => {
       mockedUserRegisterAPI.mockReturnValue(
-        Promise.resolve({
-          data: { name: '', username: '', accessToken: '', refreshToken: '' },
-          status: 200,
-        })
+        Promise.resolve(dummyRegisterSuccessReturnValue)
       );
       const userHasLoggedInMock = jest.spyOn(UserActions, 'userHasLoggedIn');
 
@@ -112,10 +124,7 @@ describe('UserActions Thunk Tests', () => {
 
     it('should call localstorage store function to store tokens to localStorage if succeed', async () => {
       mockedUserRegisterAPI.mockReturnValue(
-        Promise.resolve({
-          data: { name: '', username: '', accessToken: '', refreshToken: '' },
-          status: 200,
-        })
+        Promise.resolve(dummyRegisterSuccessReturnValue)
       );
       const setLocalStorageDataMock = setLocalStorageData as jest.Mock;
       setLocalStorageDataMock.mockClear();
@@ -128,12 +137,6 @@ describe('UserActions Thunk Tests', () => {
     });
 
     it('should dispatch errorOccuredInRegisteringUser action if it fails to register', async () => {
-      const dummyErrorRegisterData: UserRegisterErrorData = {
-        name: 'error nama',
-        username: 'error username',
-        password: 'error password',
-        otherMessage: 'error lainnya',
-      };
       const mockedErrorOccuredInRegisteringUser = jest.spyOn(
         UserActions,
         'errorOccuredInRegisteringUser'
@@ -141,16 +144,13 @@ describe('UserActions Thunk Tests', () => {
       const dispatch = jest.fn();
 
       mockedUserRegisterAPI.mockReturnValue(
-        Promise.resolve({
-          isAxiosError: true,
-          response: { data: dummyErrorRegisterData },
-        })
+        Promise.resolve({response: {data: dummyRegisterErrorReturnValue}})
       );
       await registerUserCall(dispatch, jest.fn(), null);
 
       expect(dispatch).toHaveBeenCalledTimes(3);
       expect(dispatch).toHaveBeenCalledWith(
-        UserActions.errorOccuredInRegisteringUser(dummyErrorRegisterData)
+        UserActions.errorOccuredInRegisteringUser(dummyRegisterErrorReturnValue)
       );
       expect(mockedErrorOccuredInRegisteringUser).toHaveBeenCalled();
     });
