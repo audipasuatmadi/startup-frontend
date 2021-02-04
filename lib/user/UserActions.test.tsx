@@ -207,7 +207,7 @@ describe('loginUser thunk tests', () => {
     expect(mockedUserLoginAPI).toHaveBeenCalledWith({username: 'johndoe', password: 'password'})
   })
 
-  it('should call 2 setLocalStorage successful login attempt properly', async () => {
+  it('should call 2 setLocalStorage if successful login attempt', async () => {
     mockedUserLoginAPI.mockReturnValue(Promise.resolve({data: dummyLoginSuccessResponse}))
 
     const mockedSetLocalStorage: jest.Mock = setLocalStorageData as jest.Mock
@@ -215,6 +215,15 @@ describe('loginUser thunk tests', () => {
     expect(mockedSetLocalStorage).toHaveBeenCalledTimes(2);
     
     mockedSetLocalStorage.mockClear();
+  })
+
+  it('should dispatch user data if successful login attempt', async () => {
+    mockedUserLoginAPI.mockReturnValue(Promise.resolve({data: {name: 'John Doe', username: 'johndoe', accessToken: 'adw', refreshToken: 'awdad'}}))
+
+    await loginUserCall(mockedDispatch, jest.fn(), null);
+
+    expect(mockedDispatch).toHaveBeenCalled();
+    expect(mockedDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedIn({name: 'John Doe', username: 'johndoe'}));
   })
 
   it('should call removeLocalStorage', async () => {

@@ -55,9 +55,10 @@ export const loginUser = (
   dispatch(userDataIsLoading());
   
   const loginReturnData = await UserAPI.login(loginCredentials);
-  
   if (isLoginSuccessResponse(loginReturnData)) {
-    const {accessToken, refreshToken} = loginReturnData.data
+    const {accessToken, refreshToken, name, username} = loginReturnData.data
+    dispatch(userHasLoggedIn({name, username}));
+
     setLocalStorageData('at', accessToken);
     setLocalStorageData('rt', refreshToken);
   }
