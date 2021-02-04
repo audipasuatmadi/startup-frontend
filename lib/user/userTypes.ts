@@ -56,7 +56,7 @@ export const isRegisterSuccessResponse = (
   obj: any
 ): obj is AxiosResponse<RegistrationSuccessResponse> => {
   if (typeof obj !== 'object') return false;
-  if ('status' in obj && 'data' in obj) {
+  if ('status' in obj || 'data' in obj) {
     if ('accessToken' in obj.data && 'refreshToken' in obj.data && 'name' in obj.data && 'username' in obj.data) return true;
     return false;
   }
