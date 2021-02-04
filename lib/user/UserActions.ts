@@ -5,12 +5,15 @@ import {
   UserData,
   RegisterErrorAction,
   RegistrationFailedResponse,
+  UserLoginRequestData,
+  isLoginSuccessResponse,
+  isLoginErrorResponse,
 } from './userTypes';
 import UserAPI from '../../apis/UserAPI';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../states/RootReducer';
 import { Action } from 'redux';
-import { setLocalStorageData } from '../utils/LocalStorageUtil';
+import { setLocalStorageData, removeLocalStorgeData } from '../utils/LocalStorageUtil';
 
 export const ACTION_TYPES = {
   IS_LOADING: 'user/IS_LOADING',
@@ -44,6 +47,26 @@ export const registerUser = (
     const errorData = registerServiceResponse.response.data;
     dispatch(errorOccuredInRegisteringUser(errorData));
   }
+};
+
+export const loginUser = (
+  loginCredentials: UserLoginRequestData
+): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
+  dispatch(userDataIsLoading());
+  
+  const loginReturnData = await UserAPI.login(loginCredentials);
+  
+  if (isLoginSuccessResponse(loginReturnData)) {
+    const {accessToken, refreshToken} = loginReturnData.data
+    setLocalStorageData('at', accessToken);
+    setLocalStorageData('rt', refreshToken);
+  }
+
+  if (isLoginErrorResponse(loginReturnData)) {
+    removeLocalStorgeData('at');
+    removeLocalStorgeData('rt');
+  }
+
 };
 
 export const userDataIsLoading = (): UserAction => ({
