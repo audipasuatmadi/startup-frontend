@@ -5,8 +5,12 @@ import {
   RegistrationFailedResponse,
   UserCredentials,
   UserLoginRequestData,
+  LoginSuccessResponse,
+  LoginFailedResponse,
+  isLoginSuccessResponse,
 } from '../lib/user/userTypes';
 import login from '../pages/login';
+import { number } from 'yup/lib/locale';
 
 export const unreachedServerError: AxiosError<RegistrationFailedResponse> = {
   config: {},
@@ -17,7 +21,7 @@ export const unreachedServerError: AxiosError<RegistrationFailedResponse> = {
   response: {
     status: 503,
     statusText: 'Service Unavailable',
-    data: { otherMessage: '503: Server Unavailable'},
+    data: { otherMessage: '503: Server Unavailable' },
     headers: {},
     config: {},
   },
@@ -46,6 +50,23 @@ export default {
   },
 
   async login(loginCredentials: UserLoginRequestData) {
-
-  }
+    let response:
+      | AxiosResponse<LoginSuccessResponse>
+      | AxiosError<LoginFailedResponse>;
+    
+    try {
+      response = await axios.post('/users/login', loginCredentials)
+      if (isLoginSuccessResponse(response)) {
+        return response.data
+      } else {
+        return response
+      }
+    } catch (e) {
+      response = e as AxiosError<LoginFailedResponse>
+      if (!response.response) {
+        response = unreachedServerError
+      }
+      return response
+    }
+  },
 };

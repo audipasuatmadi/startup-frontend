@@ -10,11 +10,9 @@ import {
   LoginFailedResponse,
   LoginSuccessResponse,
 } from '../lib/user/userTypes';
-import { setLocalStorageData, removeLocalStorgeData } from '../lib/utils/LocalStorageUtil';
 
 
 jest.mock('./Index.ts');
-jest.mock('../lib/utils/LocalStorageUtil')
 
 describe('User Register Tests', () => {
   let mockedRegisterMethod: jest.Mock;
@@ -117,32 +115,36 @@ describe('User Login Tests', () => {
     mockedPostMethod.mockClear()
   })
 
-  it('should call the post method', () => {
+  it('should call the post method', async () => {
+    await UserAPI.login(dummyLoginData)
     expect(mockedPostMethod).toHaveBeenCalledTimes(1)
   })
 
-  it('should call the post method to the right endpoint & with right arguments', () => {
+  it('should call the post method to the right endpoint & with right arguments', async () => {
+    await UserAPI.login(dummyLoginData)
     expect(mockedPostMethod).toHaveBeenCalledWith('/users/login', dummyLoginData)
   })
 
-  it('should return a value regardless what happens', () => {
-    expect(UserAPI.login).toHaveReturned()
+  it('should return a value regardless what happens', async () => {
+    const loginReturn = await UserAPI.login(dummyLoginData)
+    expect(loginReturn).toBeTruthy()
   })
 
-  it('should return the right response if the server can\'t be found', () => {
+  it('should return the right response if the server can\'t be found', async () => {
     mockedPostMethod.mockReturnValue(null)
-    expect(UserAPI.login).toHaveReturnedWith(unreachedServerError)
+    const loginReturn = await UserAPI.login(dummyLoginData)
+    expect(loginReturn).toBe(unreachedServerError)
   })
 
-  it('should return the right response if login does not succeed', () => {
-    mockedPostMethod.mockReturnValue(dummyLoginFailedResponse)
-    expect(UserAPI.login).toHaveReturnedWith({response: {data: {dummyLoginFailedResponse}}})
-    expect(removeLocalStorgeData).toHaveBeenCalled()
+  it('should return the right response if login does not succeed', async () => {
+    mockedPostMethod.mockReturnValue(Promise.reject({isAxiosError: true, response: {data: dummyLoginFailedResponse}}))
+    const loginReturn = await UserAPI.login(dummyLoginData)
+    expect(loginReturn).toStrictEqual({isAxiosError: true, response: {data: dummyLoginFailedResponse}})
   })
 
-  it('should return the right response if login succeed', () => {
-    mockedPostMethod.mockReturnValue(dummyLoginSuccessResponse)
-    expect(UserAPI.login).toHaveReturnedWith(dummyLoginSuccessResponse)
-    expect(setLocalStorageData).toHaveBeenCalledTimes(2)
+  it('should return the right response if login succeed', async () => {
+    mockedPostMethod.mockReturnValue(Promise.resolve(dummyLoginSuccessResponse))
+    const loginReturn = await UserAPI.login(dummyLoginData)
+    expect(loginReturn).toBe(dummyLoginSuccessResponse)
   })
 })

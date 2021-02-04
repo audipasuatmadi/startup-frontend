@@ -63,6 +63,8 @@ export const isRegisterSuccessResponse = (
   return false;
 }
 
+export const isLoginSuccessResponse = isRegisterSuccessResponse
+
 // TODO: make userTypes tests
 export const isRegisterErrorResponse = (
   obj: any
@@ -70,6 +72,15 @@ export const isRegisterErrorResponse = (
   if (typeof obj !== 'object') return false;
   if ('isAxiosError' in obj && 'response' in obj) {
     if ('username' in obj.response.data || 'password' in obj.response.data || 'name' in obj.response.data || 'otherMessage' in obj.response.data) return true;
+    return false 
+  }
+  return false
+}
+
+export const isLoginErrorResponse = (obj: any) => {
+  if (typeof obj !== 'object') return false;
+  if ('isAxiosError' in obj && 'response' in obj) {
+    if ('username' in obj.response.data || 'password' in obj.response.data || 'otherMessage' in obj.response.data) return true;
     return false 
   }
   return false
