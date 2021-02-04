@@ -7,6 +7,19 @@ export interface UserCredentials {
   password: string;
 }
 
+export interface UserLoginRequestData {
+  username: string;
+  password: string;
+}
+
+export interface LoginSuccessResponse extends RegistrationSuccessResponse {}
+
+export interface LoginFailedResponse {
+  username?: string
+  password?: string
+  otherMessage?: string
+}
+
 export interface UserData {
   name: string;
   username: string;

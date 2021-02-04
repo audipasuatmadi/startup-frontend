@@ -4,9 +4,11 @@ import {
   RegistrationSuccessResponse,
   RegistrationFailedResponse,
   UserCredentials,
+  UserLoginRequestData,
 } from '../lib/user/userTypes';
+import login from '../pages/login';
 
-const unreachedServerError: AxiosError<RegistrationFailedResponse> = {
+export const unreachedServerError: AxiosError<RegistrationFailedResponse> = {
   config: {},
   isAxiosError: true,
   message: 'Service Unavailable',
@@ -42,4 +44,8 @@ export default {
     }
     return response;
   },
+
+  async login(loginCredentials: UserLoginRequestData) {
+
+  }
 };
