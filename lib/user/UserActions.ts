@@ -64,6 +64,8 @@ export const loginUser = (
   }
 
   if (isLoginErrorResponse(loginReturnData)) {
+    dispatch(userHasLoggedOut())
+
     removeLocalStorgeData('at');
     removeLocalStorgeData('rt');
   }

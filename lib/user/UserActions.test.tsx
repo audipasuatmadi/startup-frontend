@@ -226,7 +226,7 @@ describe('loginUser thunk tests', () => {
     expect(mockedDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedIn({name: 'John Doe', username: 'johndoe'}));
   })
 
-  it('should call removeLocalStorage', async () => {
+  it('should call removeLocalStorage if unsuccessful login attempt', async () => {
     mockedUserLoginAPI.mockReturnValue(Promise.resolve({isAxiosError: true, response: {data: {username: 'username tidak valid'}}}))
 
     const mockedRemoveLocalStorage: jest.Mock = removeLocalStorgeData as jest.Mock;
@@ -234,5 +234,15 @@ describe('loginUser thunk tests', () => {
     expect(mockedRemoveLocalStorage).toHaveBeenCalledTimes(2);
 
     mockedRemoveLocalStorage.mockClear();
+  })
+
+  it('should dispatch userHasLoggedOut if unsuccessful login attempt', async () => {
+    mockedUserLoginAPI.mockReturnValue(Promise.resolve({isAxiosError: true, response: {data: {username: 'username tidak valid'}}}))
+
+    await loginUserCall(mockedDispatch, jest.fn(), null);
+    
+    expect(mockedDispatch).toHaveBeenCalled()
+    expect(mockedDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedOut());
+
   })
 });
