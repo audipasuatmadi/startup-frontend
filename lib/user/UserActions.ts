@@ -8,6 +8,8 @@ import {
   UserLoginRequestData,
   isLoginSuccessResponse,
   isLoginErrorResponse,
+  LoginFailedResponse,
+  LoginErrorAction,
 } from './userTypes';
 import UserAPI from '../../apis/UserAPI';
 import { ThunkAction } from 'redux-thunk';
@@ -23,6 +25,9 @@ export const ACTION_TYPES = {
 
   REGISTER_ERROR_OCCURED: '/user/register/ERROR_OCCURED',
   REGISTER_SUCCESS: '/user/register/NO_ERROR_OCCURED',
+
+  LOGIN_ERROR_OCCURED: '/user/login/ERROR_OCCURED',
+  LOGIN_SUCCESS: '/user/login/SUCCESS'
 };
 
 export const registerUser = (
@@ -65,7 +70,8 @@ export const loginUser = (
 
   if (isLoginErrorResponse(loginReturnData)) {
     dispatch(userHasLoggedOut())
-
+    dispatch(errorOccuredInUserLogin(loginReturnData.response.data))
+    
     removeLocalStorgeData('at');
     removeLocalStorgeData('rt');
   }
@@ -97,3 +103,11 @@ export const errorOccuredInRegisteringUser = (
   payload: errorDetails,
   error: true,
 });
+
+export const errorOccuredInUserLogin = (
+  errorDetails: LoginFailedResponse
+): LoginErrorAction => ({
+  type: ACTION_TYPES.LOGIN_ERROR_OCCURED,
+  payload: errorDetails,
+  error: true
+})

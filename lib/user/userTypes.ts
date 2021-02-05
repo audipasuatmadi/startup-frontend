@@ -34,6 +34,10 @@ export interface RegisterErrorAction extends BaseActionType {
   payload: RegistrationFailedResponse;
 }
 
+export interface LoginErrorAction extends BaseActionType {
+  payload: RegistrationFailedResponse
+}
+
 export interface RegistrationSuccessResponse extends UserData {
   accessToken: string;
   refreshToken: string;
@@ -77,7 +81,7 @@ export const isRegisterErrorResponse = (
   return false
 }
 
-export const isLoginErrorResponse = (obj: any) => {
+export const isLoginErrorResponse = (obj: any): obj is AxiosError<LoginFailedResponse> => {
   if (typeof obj !== 'object') return false;
   if ('isAxiosError' in obj && 'response' in obj) {
     if ('username' in obj.response.data || 'password' in obj.response.data || 'otherMessage' in obj.response.data) return true;
