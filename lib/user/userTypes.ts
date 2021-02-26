@@ -69,7 +69,6 @@ export const isRegisterSuccessResponse = (
 
 export const isLoginSuccessResponse = isRegisterSuccessResponse
 
-// TODO: make userTypes tests
 export const isRegisterErrorResponse = (
   obj: any
 ): obj is AxiosError<RegistrationFailedResponse> => {

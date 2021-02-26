@@ -7,13 +7,14 @@ import IconButton from '../components/buttons/IconButton';
 import Button from '../components/buttons/Button';
 import { onEnterFocusToNextElement } from '../lib/utils/TextFieldUtil';
 import { useFormik } from 'formik';
-import { UserLoginRequestData } from '../lib/user/userTypes';
+import { UserLoginRequestData, isUserDataType } from '../lib/user/userTypes';
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../lib/user/UserActions';
 import { RootState } from '../states/RootReducer';
 import Modal from '../components/modals/Modal';
 import ClipLoader from 'react-spinners/ClipLoader'
+import { useRouter } from 'next/router';
 
 const login = () => {
   const [showPassword, toggleShowPassword] = useReducer(
@@ -24,6 +25,7 @@ const login = () => {
   const dispatch = useDispatch()
   const userDataState = useSelector((state: RootState) => state.userData)
   const loginErrorState = useSelector((state: RootState) => state.loginError)
+  const router = useRouter();
 
 
   const initialValues: UserLoginRequestData = {
@@ -45,6 +47,11 @@ const login = () => {
       dispatch(loginUser(loginRequestBody))
     }
   })
+
+  if (isUserDataType(userDataState)) {
+    router.replace('/')
+    return null;
+  }
 
   return (
     <div className='w-full, lg:px-64'>

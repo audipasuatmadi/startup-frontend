@@ -5,6 +5,11 @@ import TextField from '../inputfields/TextField';
 import NavigationItem from './NavigationItem';
 import Button from '../buttons/Button';
 import IconButton from '../buttons/IconButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../states/RootReducer';
+import { isUserDataType, UserData } from '../../lib/user/userTypes';
+import Dropdown from '../dropdowns/Dropdown';
+import DropdownItem from '../dropdowns/DropdownItem';
 
 const searchIcon = (
   <Image
@@ -23,11 +28,36 @@ const hamburgerIcon = (
   />
 );
 
+const ProfileDropdown = ({userData}: {userData: UserData}) => (
+  <Dropdown
+    togglerRender={(props) => (
+      <IconButton
+        className="w-7 h-7 md:w-10 md:h-10"
+        {...props}
+        icon={
+          <div
+            className='h-full w-full rounded-full bg-gray-700'
+          >
+          </div>
+        }></IconButton>
+    )}
+    containerAlign='right'>
+    <DropdownItem disabled>{userData.name}</DropdownItem>
+    <DropdownItem divider>Profil Saya</DropdownItem>
+    <DropdownItem>Bookmarks</DropdownItem>
+    <DropdownItem divider>Pengaturan</DropdownItem>
+    <DropdownItem>Privasi</DropdownItem>
+    <DropdownItem>Logout</DropdownItem>
+  </Dropdown>
+);
+
 const Navbar = () => {
   const [isMenuOpened, toggleIsMenuOpened] = useReducer(
     (isMenuOpened) => !isMenuOpened,
     false
   );
+
+  const userDataState = useSelector((state: RootState) => state.userData);
 
   return (
     <nav className='fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50'>
@@ -51,6 +81,11 @@ const Navbar = () => {
         <li className='sm:space-y-0 md:space-y-0 '>
           <IconButton icon={searchIcon} />
         </li>
+        {
+          isUserDataType(userDataState) && (
+            <ProfileDropdown userData={userDataState} />
+          )
+        }
         <li>
           <IconButton onClick={toggleIsMenuOpened} icon={hamburgerIcon} />
         </li>
@@ -66,9 +101,13 @@ const Navbar = () => {
           <NavigationItem href='/articles'>Artikel</NavigationItem>
           <NavigationItem href='/courses'>Courses</NavigationItem>
           <NavigationItem>
-            <Button rounded href='/login'>
-              Bergabung
-            </Button>
+            {isUserDataType(userDataState) ? (
+              <ProfileDropdown userData={userDataState}   />
+            ) : (
+              <Button rounded href='/login'>
+                Bergabung
+              </Button>
+            )}
           </NavigationItem>
         </ul>
       </div>

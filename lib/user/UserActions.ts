@@ -66,6 +66,8 @@ export const loginUser = (
 
     setLocalStorageData('at', accessToken);
     setLocalStorageData('rt', refreshToken);
+
+    console.log('here')
   }
 
   if (isLoginErrorResponse(loginReturnData)) {
@@ -74,7 +76,9 @@ export const loginUser = (
     
     removeLocalStorgeData('at');
     removeLocalStorgeData('rt');
+    console.log('there')
   }
+  console.log(loginReturnData)
 
 };
 

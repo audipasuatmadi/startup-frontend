@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 interface TogglerRenderProps {
-  onClick: (e: React.MouseEvent) => void;
+  onClick: (e: React.MouseEvent<any>) => void;
 }
 
 export interface DropdownProps {

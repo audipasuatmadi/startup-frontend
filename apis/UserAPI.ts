@@ -56,11 +56,7 @@ export default {
     
     try {
       response = await axios.post('/users/login', loginCredentials)
-      if (isLoginSuccessResponse(response)) {
-        return response.data
-      } else {
-        return response
-      }
+      return response
     } catch (e) {
       response = e as AxiosError<LoginFailedResponse>
       if (!response.response) {
