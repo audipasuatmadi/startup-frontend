@@ -1,9 +1,14 @@
 import { combineReducers } from 'redux';
-import {UserReducer, RegisterErrorReducer} from '../lib/user/UserReducer';
+import {
+  UserReducer,
+  RegisterErrorReducer,
+  LoginErrorReducer,
+} from '../lib/user/UserReducer';
 
 const RootReducer = combineReducers({
   userData: UserReducer,
-  registerError: RegisterErrorReducer
+  registerError: RegisterErrorReducer,
+  loginError: LoginErrorReducer,
 });
 
 export type RootState = ReturnType<typeof RootReducer>;

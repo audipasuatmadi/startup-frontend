@@ -5,12 +5,17 @@ import {
   UserData,
   RegisterErrorAction,
   RegistrationFailedResponse,
+  UserLoginRequestData,
+  isLoginSuccessResponse,
+  isLoginErrorResponse,
+  LoginFailedResponse,
+  LoginErrorAction,
 } from './userTypes';
 import UserAPI from '../../apis/UserAPI';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../states/RootReducer';
 import { Action } from 'redux';
-import { setLocalStorageData } from '../utils/LocalStorageUtil';
+import { setLocalStorageData, removeLocalStorgeData } from '../utils/LocalStorageUtil';
 
 export const ACTION_TYPES = {
   IS_LOADING: 'user/IS_LOADING',
@@ -20,6 +25,9 @@ export const ACTION_TYPES = {
 
   REGISTER_ERROR_OCCURED: '/user/register/ERROR_OCCURED',
   REGISTER_SUCCESS: '/user/register/NO_ERROR_OCCURED',
+
+  LOGIN_ERROR_OCCURED: '/user/login/ERROR_OCCURED',
+  LOGIN_SUCCESS: '/user/login/SUCCESS'
 };
 
 export const registerUser = (
@@ -44,6 +52,34 @@ export const registerUser = (
     const errorData = registerServiceResponse.response.data;
     dispatch(errorOccuredInRegisteringUser(errorData));
   }
+};
+
+export const loginUser = (
+  loginCredentials: UserLoginRequestData
+): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
+  dispatch(userDataIsLoading());
+  
+  const loginReturnData = await UserAPI.login(loginCredentials);
+  if (isLoginSuccessResponse(loginReturnData)) {
+    const {accessToken, refreshToken, name, username} = loginReturnData.data
+    dispatch(userHasLoggedIn({name, username}));
+
+    setLocalStorageData('at', accessToken);
+    setLocalStorageData('rt', refreshToken);
+
+    console.log('here')
+  }
+
+  if (isLoginErrorResponse(loginReturnData)) {
+    dispatch(userHasLoggedOut())
+    dispatch(errorOccuredInUserLogin(loginReturnData.response.data))
+    
+    removeLocalStorgeData('at');
+    removeLocalStorgeData('rt');
+    console.log('there')
+  }
+  console.log(loginReturnData)
+
 };
 
 export const userDataIsLoading = (): UserAction => ({
@@ -71,3 +107,11 @@ export const errorOccuredInRegisteringUser = (
   payload: errorDetails,
   error: true,
 });
+
+export const errorOccuredInUserLogin = (
+  errorDetails: LoginFailedResponse
+): LoginErrorAction => ({
+  type: ACTION_TYPES.LOGIN_ERROR_OCCURED,
+  payload: errorDetails,
+  error: true
+})

@@ -1,8 +1,16 @@
-import { UserAction, UserReducerType, RegistrationFailedResponse, RegisterErrorAction } from './userTypes';
+import {
+  UserAction,
+  UserReducerType,
+  RegistrationFailedResponse,
+  RegisterErrorAction,
+  LoginFailedResponse,
+  LoginErrorAction,
+} from './userTypes';
 import { ACTION_TYPES } from './UserActions';
 
 const userReducerInitialState: UserReducerType = 'logged_out';
-const registerErrorReducerInitialState: RegistrationFailedResponse = {}
+const registerErrorReducerInitialState: RegistrationFailedResponse = {};
+const loginReducerInitialState: LoginFailedResponse = {};
 
 export const UserReducer = (
   state: UserReducerType = userReducerInitialState,
@@ -23,13 +31,30 @@ export const UserReducer = (
   }
 };
 
-export const RegisterErrorReducer = (state: RegistrationFailedResponse = registerErrorReducerInitialState, action: RegisterErrorAction): RegistrationFailedResponse => {
+export const RegisterErrorReducer = (
+  state: RegistrationFailedResponse = registerErrorReducerInitialState,
+  action: RegisterErrorAction
+): RegistrationFailedResponse => {
   switch (action.type) {
     case ACTION_TYPES.REGISTER_ERROR_OCCURED:
-      return action.payload
+      return action.payload;
     case ACTION_TYPES.REGISTER_SUCCESS:
-      return {}
+      return {};
     default:
       return state;
   }
-}
+};
+
+export const LoginErrorReducer = (
+  state: LoginFailedResponse = loginReducerInitialState,
+  action: LoginErrorAction
+): LoginFailedResponse => {
+  switch (action.type) {
+    case ACTION_TYPES.LOGIN_ERROR_OCCURED:
+      return action.payload;
+    case ACTION_TYPES.LOGIN_SUCCESS:
+      return {};
+    default:
+      return state;
+  }
+};

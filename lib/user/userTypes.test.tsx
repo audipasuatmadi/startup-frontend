@@ -1,4 +1,4 @@
-import { isRegisterErrorResponse, isRegisterSuccessResponse, isUserDataType } from './userTypes';
+import { isRegisterErrorResponse, isRegisterSuccessResponse, isUserDataType, isLoginErrorResponse } from './userTypes';
 
 describe('userTypes type guards tests', () => {
   it('should detects error response correctly', () => {
@@ -33,7 +33,17 @@ describe('userTypes type guards tests', () => {
     }
 
     expect(isUserDataType(userDataType)).toBe(true)
+  })
 
+  it('should detect an error login response type', () => {
+    const dummyErrorLoginResponse = {
+      isAxiosError: true,
+      response: {data: {
+        username: 'username didn\'t match'
+      }}
+    }
+
+    expect(isLoginErrorResponse(dummyErrorLoginResponse)).toBe(true)
   })
 
 
