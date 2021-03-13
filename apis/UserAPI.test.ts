@@ -131,7 +131,7 @@ describe('User Login Tests', () => {
   })
 
   it('should return the right response if the server can\'t be found', async () => {
-    mockedPostMethod.mockReturnValue(null)
+    mockedPostMethod.mockReturnValue(Promise.reject(null));
     const loginReturn = await UserAPI.login(dummyLoginData)
     expect(loginReturn).toBe(unreachedServerError)
   })

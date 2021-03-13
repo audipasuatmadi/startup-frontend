@@ -1,7 +1,10 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import Navbar from './Navbar';
+import { useSelector } from 'react-redux'
+import { UserData } from '../../lib/user/userTypes';
 
+jest.mock('react-redux');
 describe('Navbar rendering tests', () => {
   let wrapper: ShallowWrapper;
 
@@ -10,7 +13,7 @@ describe('Navbar rendering tests', () => {
   });
 
   afterEach(() => {
-    wrapper.unmount();
+    if (wrapper) wrapper.unmount();
   });
 
   it('should render the main components correctly', () => {
@@ -19,8 +22,20 @@ describe('Navbar rendering tests', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render the right buttons when user is not logged out', () => {
+  it('should render the right buttons when user is logged in', () => {
     expect(wrapper.find('NavigationItem').length).toBe(5);
     expect(wrapper).toMatchSnapshot();
   });
+
+  it('should render properly if userdata is logged in', () => {
+    const mockedUseSelector = useSelector as jest.Mock;
+    const dummyLoggedUser: UserData = {
+      name: "John Doe",
+      username: "johndoe"
+    }
+
+    mockedUseSelector.mockReturnValue(dummyLoggedUser);
+    expect(mockedUseSelector).toHaveBeenCalled();
+    expect(mockedUseSelector).toHaveReturned();
+  }) 
 });
