@@ -100,7 +100,7 @@ exports[`Navbar rendering tests should render the main components correctly 1`] 
 </nav>
 `;
 
-exports[`Navbar rendering tests should render the right buttons when user is not logged out 1`] = `
+exports[`Navbar rendering tests should render the right buttons when user is logged in 1`] = `
 <nav
   className="fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50"
 >

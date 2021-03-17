@@ -59,6 +59,11 @@ export default {
       return response
     } catch (e) {
       response = e as AxiosError<LoginFailedResponse>
+
+      if (!response) {
+        return unreachedServerError;
+      }
+
       if (!response.response) {
         response = unreachedServerError
       }
