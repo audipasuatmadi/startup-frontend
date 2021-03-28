@@ -1,10 +1,12 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import Navbar from './Navbar';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { UserData } from '../../lib/user/userTypes';
+import { getLocalStorageData } from '../../lib/utils/LocalStorageUtil';
 
 jest.mock('react-redux');
+jest.mock('../../lib/utils/LocalStorageUtil.ts');
 describe('Navbar rendering tests', () => {
   let wrapper: ShallowWrapper;
 
@@ -30,12 +32,41 @@ describe('Navbar rendering tests', () => {
   it('should render properly if userdata is logged in', () => {
     const mockedUseSelector = useSelector as jest.Mock;
     const dummyLoggedUser: UserData = {
-      name: "John Doe",
-      username: "johndoe"
-    }
+      name: 'John Doe',
+      username: 'johndoe',
+    };
 
     mockedUseSelector.mockReturnValue(dummyLoggedUser);
     expect(mockedUseSelector).toHaveBeenCalled();
     expect(mockedUseSelector).toHaveReturned();
-  }) 
+  });
+});
+
+describe('Navbar remember me functionality', () => {
+  let wrapper: ShallowWrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(<Navbar />);
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it('should call the getLocalStorage function twice', () => {
+    const mockedGetLocalStorage = getLocalStorageData as jest.Mock;
+
+    expect(mockedGetLocalStorage).toHaveBeenCalledTimes(1);
+    mockedGetLocalStorage.mockClear();
+  });
+
+  it('should call the getLocalStorage with the right arguments', () => {
+    const mockedGetLocalStorage = getLocalStorageData as jest.Mock;
+
+    expect(mockedGetLocalStorage).toHaveBeenCalledTimes(2);
+    expect(mockedGetLocalStorage).toHaveBeenCalledWith(['at', 'rt'])
+  });
+
+
+
 });

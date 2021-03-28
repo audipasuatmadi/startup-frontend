@@ -10,6 +10,7 @@ import { RootState } from '../../states/RootReducer';
 import { isUserDataType, UserData } from '../../lib/user/userTypes';
 import Dropdown from '../dropdowns/Dropdown';
 import DropdownItem from '../dropdowns/DropdownItem';
+import { getLocalStorageData } from '../../lib/utils/LocalStorageUtil';
 
 const searchIcon = (
   <Image
@@ -56,6 +57,11 @@ const Navbar = () => {
     (isMenuOpened) => !isMenuOpened,
     false
   );
+
+  useEffect(() => {
+    const accessToken = getLocalStorageData('at');
+    const refreshToken = getLocalStorageData('rt');
+  }, [])
 
   const userDataState = useSelector((state: RootState) => state.userData);
 
