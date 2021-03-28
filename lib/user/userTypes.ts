@@ -26,6 +26,11 @@ export interface UserData {
   profilePicURL?: string;
 }
 
+export interface AuthenticationTokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface UserAction extends BaseActionType {
   payload?: UserData;
 }
@@ -38,10 +43,7 @@ export interface LoginErrorAction extends BaseActionType {
   payload: RegistrationFailedResponse
 }
 
-export interface RegistrationSuccessResponse extends UserData {
-  accessToken: string;
-  refreshToken: string;
-}
+export type RegistrationSuccessResponse = UserData & AuthenticationTokens
 
 export interface UserRegisterForm extends UserCredentials {
   passwordConfirm: string;

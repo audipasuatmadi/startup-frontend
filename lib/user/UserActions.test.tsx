@@ -4,6 +4,7 @@ import {
   RegistrationFailedResponse,
   RegistrationSuccessResponse,
   LoginSuccessResponse,
+  AuthenticationTokens,
 } from './userTypes';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../states/RootReducer';
@@ -243,6 +244,49 @@ describe('loginUser thunk tests', () => {
     
     expect(mockedDispatch).toHaveBeenCalled()
     expect(mockedDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedOut());
-
   })
 });
+
+describe("validateToken thunk tests", () => {
+
+  const dummyTokens: AuthenticationTokens = {
+    accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2lsIiwibmFtZSI6IlJhZ2lsIiwiaWF0IjoxNjE2MTUzMDM0LCJleHAiOjE2MTYxNTY2MzR9.vxm1Nb11ZWloEtQ6mdPFiXethFkzRYEwTqmHnmfhYIM",
+    refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2lsIiwibmFtZSI6IlJhZ2lsIiwiaWF0IjoxNjE2MTUzMDM0fQ.is3nFpIEzkw6Gatbxx4YUH94ev1hPiyFrLD4jSITdEQ"
+  };
+
+  let validateTokenThunk: ThunkAction<
+    void,
+    RootState,
+    null,
+    Action<string>
+  > = UserActions.validateToken(dummyTokens);
+
+  let validateTokenCall = () => validateTokenThunk(mockedDispatch, jest.fn(), null);
+
+  let mockedDispatch: jest.Mock;
+  let mockedValidateTokenAPI: jest.Mock;
+
+  beforeEach(() => {
+    mockedDispatch = jest.fn();
+    mockedValidateTokenAPI = UserAPI.validateToken as jest.Mock;
+  })
+
+  beforeEach(() => {
+    if (mockedDispatch) mockedDispatch.mockClear();
+    if (mockedValidateTokenAPI) mockedValidateTokenAPI.mockClear();
+  })
+
+
+  it('should dispatch userDataIsLoading UserActions first', () => {
+    validateTokenCall();
+    expect(mockedDispatch).toHaveBeenCalledTimes(1);
+  })
+
+  it('should dispatch the API to validates token', async () => {
+    await validateTokenCall();
+    expect(mockedValidateTokenAPI).toHaveBeenCalledTimes(1);
+    expect(mockedValidateTokenAPI).toHaveBeenCalledWith(dummyTokens);
+  })
+
+
+})
