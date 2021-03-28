@@ -93,7 +93,14 @@ export const validateToken = ({
   dispatch(userDataIsLoading());
 
   const validateReturnData = await UserAPI.validateToken({accessToken, refreshToken});
-
+  console.log(validateReturnData);
+  if (isLoginSuccessResponse(validateReturnData)) {
+    console.log('nice')
+  } else if (isLoginErrorResponse(validateReturnData)) {
+    console.log('fail')
+    console.log(validateReturnData.response.data)
+    dispatch(userHasLoggedOut());
+  }
 };
 
 export const userDataIsLoading = (): UserAction => ({

@@ -11,6 +11,7 @@ import { isUserDataType, UserData } from '../../lib/user/userTypes';
 import Dropdown from '../dropdowns/Dropdown';
 import DropdownItem from '../dropdowns/DropdownItem';
 import { getLocalStorageData } from '../../lib/utils/LocalStorageUtil';
+import { validateToken } from '../../lib/user/UserActions';
 
 const searchIcon = (
   <Image
@@ -65,7 +66,7 @@ const Navbar = () => {
     const refreshToken = getLocalStorageData('rt');
 
     if (refreshToken && accessToken) {
-      
+      dispatch(validateToken({accessToken, refreshToken}));
     }
   }, [])
 
