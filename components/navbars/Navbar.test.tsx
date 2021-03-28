@@ -41,32 +41,3 @@ describe('Navbar rendering tests', () => {
     expect(mockedUseSelector).toHaveReturned();
   });
 });
-
-describe('Navbar remember me functionality', () => {
-  let wrapper: ShallowWrapper;
-
-  beforeEach(() => {
-    wrapper = shallow(<Navbar />);
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
-  it('should call the getLocalStorage function twice', () => {
-    const mockedGetLocalStorage = getLocalStorageData as jest.Mock;
-
-    expect(mockedGetLocalStorage).toHaveBeenCalledTimes(1);
-    mockedGetLocalStorage.mockClear();
-  });
-
-  it('should call the getLocalStorage with the right arguments', () => {
-    const mockedGetLocalStorage = getLocalStorageData as jest.Mock;
-
-    expect(mockedGetLocalStorage).toHaveBeenCalledTimes(2);
-    expect(mockedGetLocalStorage).toHaveBeenCalledWith(['at', 'rt'])
-  });
-
-
-
-});

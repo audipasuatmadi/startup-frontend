@@ -10,12 +10,16 @@ import {
   isLoginErrorResponse,
   LoginFailedResponse,
   LoginErrorAction,
+  AuthenticationTokens,
 } from './userTypes';
 import UserAPI from '../../apis/UserAPI';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../states/RootReducer';
 import { Action } from 'redux';
-import { setLocalStorageData, removeLocalStorgeData } from '../utils/LocalStorageUtil';
+import {
+  setLocalStorageData,
+  removeLocalStorgeData,
+} from '../utils/LocalStorageUtil';
 
 export const ACTION_TYPES = {
   IS_LOADING: 'user/IS_LOADING',
@@ -27,7 +31,7 @@ export const ACTION_TYPES = {
   REGISTER_SUCCESS: '/user/register/NO_ERROR_OCCURED',
 
   LOGIN_ERROR_OCCURED: '/user/login/ERROR_OCCURED',
-  LOGIN_SUCCESS: '/user/login/SUCCESS'
+  LOGIN_SUCCESS: '/user/login/SUCCESS',
 };
 
 export const registerUser = (
@@ -58,24 +62,38 @@ export const loginUser = (
   loginCredentials: UserLoginRequestData
 ): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
   dispatch(userDataIsLoading());
-  
+
   const loginReturnData = await UserAPI.login(loginCredentials);
   if (isLoginSuccessResponse(loginReturnData)) {
-    const {accessToken, refreshToken, name, username} = loginReturnData.data
-    dispatch(userHasLoggedIn({name, username}));
+    const { accessToken, refreshToken, name, username } = loginReturnData.data;
+    dispatch(userHasLoggedIn({ name, username }));
 
     setLocalStorageData('at', accessToken);
     setLocalStorageData('rt', refreshToken);
-
   }
 
   if (isLoginErrorResponse(loginReturnData)) {
-    dispatch(userHasLoggedOut())
-    dispatch(errorOccuredInUserLogin(loginReturnData.response.data))
-    
+    dispatch(userHasLoggedOut());
+    dispatch(errorOccuredInUserLogin(loginReturnData.response.data));
+
     removeLocalStorgeData('at');
     removeLocalStorgeData('rt');
   }
+};
+
+export const validateToken = ({
+  accessToken,
+  refreshToken,
+}: AuthenticationTokens): ThunkAction<
+  void,
+  RootState,
+  null,
+  Action<string>
+> => async (dispatch) => {
+  dispatch(userDataIsLoading());
+
+  const validateReturnData = await UserAPI.validateToken({accessToken, refreshToken});
+
 };
 
 export const userDataIsLoading = (): UserAction => ({
@@ -109,5 +127,5 @@ export const errorOccuredInUserLogin = (
 ): LoginErrorAction => ({
   type: ACTION_TYPES.LOGIN_ERROR_OCCURED,
   payload: errorDetails,
-  error: true
-})
+  error: true,
+});

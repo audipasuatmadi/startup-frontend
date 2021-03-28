@@ -5,7 +5,7 @@ import TextField from '../inputfields/TextField';
 import NavigationItem from './NavigationItem';
 import Button from '../buttons/Button';
 import IconButton from '../buttons/IconButton';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../states/RootReducer';
 import { isUserDataType, UserData } from '../../lib/user/userTypes';
 import Dropdown from '../dropdowns/Dropdown';
@@ -58,9 +58,15 @@ const Navbar = () => {
     false
   );
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const accessToken = getLocalStorageData('at');
     const refreshToken = getLocalStorageData('rt');
+
+    if (refreshToken && accessToken) {
+      
+    }
   }, [])
 
   const userDataState = useSelector((state: RootState) => state.userData);
