@@ -74,6 +74,14 @@ export default {
   },
 
   async validateToken(tokens: AuthenticationTokens) {
+    let response:
+      | AxiosResponse<LoginSuccessResponse>
+      | AxiosError<LoginFailedResponse>;
     
+    try {
+      
+    } catch (e) {
+
+    }
   }
 };

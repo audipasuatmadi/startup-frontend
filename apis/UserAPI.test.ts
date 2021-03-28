@@ -148,3 +148,9 @@ describe('User Login Tests', () => {
     expect(loginReturn).toBe(dummyLoginSuccessResponse)
   })
 })
+
+describe('Validate Token Tests', () => {
+  it('should call the right method', () => {
+
+  })
+})
