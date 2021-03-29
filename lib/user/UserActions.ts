@@ -95,11 +95,17 @@ export const validateToken = ({
   const validateReturnData = await UserAPI.validateToken({accessToken, refreshToken});
   console.log(validateReturnData);
   if (isLoginSuccessResponse(validateReturnData)) {
-    console.log('nice')
+    const { accessToken, refreshToken, name, username } = validateReturnData.data;
+    dispatch(userHasLoggedIn({ name, username }));
+
+    setLocalStorageData('at', accessToken);
+    setLocalStorageData('rt', refreshToken);
   } else if (isLoginErrorResponse(validateReturnData)) {
-    console.log('fail')
-    console.log(validateReturnData.response.data)
     dispatch(userHasLoggedOut());
+    dispatch(errorOccuredInUserLogin(validateReturnData.response.data));
+
+    removeLocalStorgeData('at');
+    removeLocalStorgeData('rt');
   }
 };
 
