@@ -79,9 +79,19 @@ export default {
       | AxiosError<LoginFailedResponse>;
     
     try {
-      
+      response = await axios.post('/users/validate', tokens);
+      return response;
     } catch (e) {
+      response = e as AxiosError<LoginFailedResponse>
+      
+      if (!response) {
+        return unreachedServerError;
+      }
 
+      if (!response.response) {
+        response = unreachedServerError
+      }
+      return response
     }
   }
 };

@@ -93,7 +93,20 @@ export const validateToken = ({
   dispatch(userDataIsLoading());
 
   const validateReturnData = await UserAPI.validateToken({accessToken, refreshToken});
+  console.log(validateReturnData);
+  if (isLoginSuccessResponse(validateReturnData)) {
+    const { accessToken, refreshToken, name, username } = validateReturnData.data;
+    dispatch(userHasLoggedIn({ name, username }));
 
+    setLocalStorageData('at', accessToken);
+    setLocalStorageData('rt', refreshToken);
+  } else if (isLoginErrorResponse(validateReturnData)) {
+    dispatch(userHasLoggedOut());
+    dispatch(errorOccuredInUserLogin(validateReturnData.response.data));
+
+    removeLocalStorgeData('at');
+    removeLocalStorgeData('rt');
+  }
 };
 
 export const userDataIsLoading = (): UserAction => ({
