@@ -8,7 +8,7 @@ import {
 } from './userTypes';
 import { ACTION_TYPES } from './UserActions';
 
-const userReducerInitialState: UserReducerType = 'logged_out';
+const userReducerInitialState: UserReducerType = 'loading';
 const registerErrorReducerInitialState: RegistrationFailedResponse = {};
 const loginReducerInitialState: LoginFailedResponse = {};
 
