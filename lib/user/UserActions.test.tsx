@@ -304,6 +304,8 @@ describe("logout user thunk tests", () => {
   let mDispatch: jest.Mock;
   let mLogoutAPI: jest.Mock;
 
+  const logoutThunkCall = () => logoutUserThunk(mDispatch, jest.fn(), null);
+
   beforeEach(() => {
     mDispatch = jest.fn();
     mLogoutAPI = UserAPI.logout as jest.Mock;
@@ -312,5 +314,13 @@ describe("logout user thunk tests", () => {
   afterEach(() => {
     if (mDispatch) mDispatch.mockClear();
     if (mLogoutAPI) mLogoutAPI.mockClear();
+  })
+
+  it('should call dispatch with isLoading first and foremost', () => {
+    const mUserDataisLoading = jest.spyOn(UserActions, 'userDataIsLoading');
+    logoutThunkCall();
+    expect(mDispatch).toHaveBeenCalled();
+    expect(mUserDataisLoading).toHaveBeenCalled();
+    expect(mDispatch).toHaveBeenCalledWith(UserActions.userDataIsLoading());
   })
 })
