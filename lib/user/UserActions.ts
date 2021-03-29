@@ -109,6 +109,12 @@ export const validateToken = ({
   }
 };
 
+export const logoutUser = (
+  username: string
+): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
+  
+}
+
 export const userDataIsLoading = (): UserAction => ({
   type: ACTION_TYPES.IS_LOADING,
 });

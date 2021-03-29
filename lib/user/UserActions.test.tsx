@@ -290,3 +290,27 @@ describe("validateToken thunk tests", () => {
 
 
 })
+
+describe("logout user thunk tests", () => {
+  const pUsername = "johndoe";
+
+  const logoutUserThunk: ThunkAction<
+    void,
+    RootState,
+    null,
+    Action<string>
+  > = UserActions.logoutUser(pUsername);
+
+  let mDispatch: jest.Mock;
+  let mLogoutAPI: jest.Mock;
+
+  beforeEach(() => {
+    mDispatch = jest.fn();
+    mLogoutAPI = UserAPI.logout as jest.Mock;
+  })
+
+  afterEach(() => {
+    if (mDispatch) mDispatch.mockClear();
+    if (mLogoutAPI) mLogoutAPI.mockClear();
+  })
+})
