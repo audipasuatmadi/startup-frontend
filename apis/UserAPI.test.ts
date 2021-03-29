@@ -151,6 +151,7 @@ describe('User Login Tests', () => {
 
 describe('logout tests', () => {
   let mockedPostMethod: jest.Mock;
+  const pUsername: string = 'johndoe'
 
   beforeEach(() => {
     mockedPostMethod = axios.post as jest.Mock;
@@ -160,5 +161,13 @@ describe('logout tests', () => {
     if (mockedPostMethod) mockedPostMethod.mockClear();
   })
 
+  it('should call the post method of axios', async () => {
+    await UserAPI.logout(pUsername);
+    expect(mockedPostMethod).toHaveBeenCalledTimes(1);
+  })
 
+  it('should call the post method of axios with the right arguments', async () => {
+    await UserAPI.logout(pUsername);
+    expect(mockedPostMethod).toHaveBeenCalledWith('/users/logout', pUsername);
+  })
 })
