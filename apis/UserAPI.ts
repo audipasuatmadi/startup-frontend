@@ -95,7 +95,11 @@ export default {
     }
   },
 
-  async logout() {
-    
+  async logout(username: string) {
+    try {
+      await axios.post('/users/logout', { username: username })
+    } catch (e) {
+      console.log(e);
+    }
   }
 };

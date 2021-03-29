@@ -168,6 +168,6 @@ describe('logout tests', () => {
 
   it('should call the post method of axios with the right arguments', async () => {
     await UserAPI.logout(pUsername);
-    expect(mockedPostMethod).toHaveBeenCalledWith('/users/logout', pUsername);
+    expect(mockedPostMethod).toHaveBeenCalledWith('/users/logout', { username: pUsername });
   })
 })
