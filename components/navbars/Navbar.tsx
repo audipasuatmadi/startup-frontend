@@ -59,6 +59,7 @@ const Navbar = () => {
     false
   );
 
+  const [hasValidationCompleted, toggleHasValidationCompleted] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,11 +68,13 @@ const Navbar = () => {
 
     if (refreshToken && accessToken) {
       dispatch(validateToken({accessToken, refreshToken}));
+      toggleHasValidationCompleted(true);
     }
   }, [])
 
   const userDataState = useSelector((state: RootState) => state.userData);
 
+  if (userDataState == 'loading') return null;
   return (
     <nav className='fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50'>
       <Link href='/'>
@@ -108,21 +111,23 @@ const Navbar = () => {
         className={`fixed md:static w-screen h-screen top-0 mt-14 md:mt-0 md:top-auto md:w-auto md:h-auto sm:ml-auto bg-gray-200 md:bg-transparent ${
           isMenuOpened ? 'flex' : 'hidden md:flex'
         } justify-center items-center`}>
-        <ul className='flex flex-col space-y-8 md:space-y-0 w-max md:ml-auto md:flex-row md:space-x-10 md:mr-14 items-center'>
-          <NavigationItem href='/'>Beranda</NavigationItem>
-          <NavigationItem href='/trending'>Trending</NavigationItem>
-          <NavigationItem href='/articles'>Artikel</NavigationItem>
-          <NavigationItem href='/courses'>Courses</NavigationItem>
-          <NavigationItem>
-            {isUserDataType(userDataState) ? (
-              <ProfileDropdown userData={userDataState}   />
-            ) : (
-              <Button rounded href='/login'>
-                Bergabung
-              </Button>
-            )}
-          </NavigationItem>
-        </ul>
+            <ul className='flex flex-col space-y-8 md:space-y-0 w-max md:ml-auto md:flex-row md:space-x-10 md:mr-14 items-center'>
+              <NavigationItem href='/'>Beranda</NavigationItem>
+              <NavigationItem href='/trending'>Trending</NavigationItem>
+              <NavigationItem href='/articles'>Artikel</NavigationItem>
+              <NavigationItem href='/courses'>Courses</NavigationItem>
+              <NavigationItem>
+                {
+                  isUserDataType(userDataState) ? (
+                    <ProfileDropdown userData={userDataState}   />
+                  ) : (
+                    <Button rounded href='/login'>
+                      Bergabung
+                    </Button>
+                )}
+              </NavigationItem>
+            </ul>
+        
       </div>
     </nav>
   );
