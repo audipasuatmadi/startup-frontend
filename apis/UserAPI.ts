@@ -93,5 +93,9 @@ export default {
       }
       return response
     }
+  },
+
+  async logout() {
+    
   }
 };

@@ -149,8 +149,16 @@ describe('User Login Tests', () => {
   })
 })
 
-describe('Validate Token Tests', () => {
-  it('should call the right method', () => {
+describe('logout tests', () => {
+  let mockedPostMethod: jest.Mock;
 
+  beforeEach(() => {
+    mockedPostMethod = axios.post as jest.Mock;
   })
+
+  afterEach(() => {
+    if (mockedPostMethod) mockedPostMethod.mockClear();
+  })
+
+
 })
