@@ -93,7 +93,6 @@ export const validateToken = ({
   dispatch(userDataIsLoading());
 
   const validateReturnData = await UserAPI.validateToken({accessToken, refreshToken});
-  console.log(validateReturnData);
   if (isLoginSuccessResponse(validateReturnData)) {
     const { accessToken, refreshToken, name, username } = validateReturnData.data;
     dispatch(userHasLoggedIn({ name, username }));
@@ -112,7 +111,14 @@ export const validateToken = ({
 export const logoutUser = (
   username: string
 ): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
-  
+  dispatch(userDataIsLoading());
+
+  await UserAPI.logout(username);
+
+  removeLocalStorgeData('at');
+  removeLocalStorgeData('rt');
+
+  dispatch(userHasLoggedOut());
 }
 
 export const userDataIsLoading = (): UserAction => ({
