@@ -110,10 +110,10 @@ export const validateToken = ({
 
 export const logoutUser = (
   username: string
-): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
+): ThunkAction<void, RootState, null, Action<string>> => (dispatch) => {
   dispatch(userDataIsLoading());
 
-  await UserAPI.logout(username);
+  UserAPI.logout(username);
 
   removeLocalStorgeData('at');
   removeLocalStorgeData('rt');

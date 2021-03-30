@@ -46,6 +46,8 @@ const Navbar = () => {
     if (refreshToken && accessToken) {
       dispatch(validateToken({accessToken, refreshToken}));
       toggleHasValidationCompleted(true);
+    } else {
+      dispatch(userHasLoggedOut());
     }
   }, [])
 
