@@ -149,8 +149,25 @@ describe('User Login Tests', () => {
   })
 })
 
-describe('Validate Token Tests', () => {
-  it('should call the right method', () => {
+describe('logout tests', () => {
+  let mockedPostMethod: jest.Mock;
+  const pUsername: string = 'johndoe'
 
+  beforeEach(() => {
+    mockedPostMethod = axios.post as jest.Mock;
+  })
+
+  afterEach(() => {
+    if (mockedPostMethod) mockedPostMethod.mockClear();
+  })
+
+  it('should call the post method of axios', async () => {
+    await UserAPI.logout(pUsername);
+    expect(mockedPostMethod).toHaveBeenCalledTimes(1);
+  })
+
+  it('should call the post method of axios with the right arguments', async () => {
+    await UserAPI.logout(pUsername);
+    expect(mockedPostMethod).toHaveBeenCalledWith('/users/logout', { username: pUsername });
   })
 })

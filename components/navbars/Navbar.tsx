@@ -11,7 +11,7 @@ import { isUserDataType, UserData } from '../../lib/user/userTypes';
 import Dropdown from '../dropdowns/Dropdown';
 import DropdownItem from '../dropdowns/DropdownItem';
 import { getLocalStorageData } from '../../lib/utils/LocalStorageUtil';
-import { validateToken } from '../../lib/user/UserActions';
+import { validateToken, userHasLoggedOut, logoutUser } from '../../lib/user/UserActions';
 
 const searchIcon = (
   <Image
@@ -30,29 +30,6 @@ const hamburgerIcon = (
   />
 );
 
-const ProfileDropdown = ({userData}: {userData: UserData}) => (
-  <Dropdown
-    togglerRender={(props) => (
-      <IconButton
-        className="w-7 h-7 md:w-10 md:h-10"
-        {...props}
-        icon={
-          <div
-            className='h-full w-full rounded-full bg-gray-700'
-          >
-          </div>
-        }></IconButton>
-    )}
-    containerAlign='right'>
-    <DropdownItem disabled>{userData.name}</DropdownItem>
-    <DropdownItem divider>Profil Saya</DropdownItem>
-    <DropdownItem>Bookmarks</DropdownItem>
-    <DropdownItem divider>Pengaturan</DropdownItem>
-    <DropdownItem>Privasi</DropdownItem>
-    <DropdownItem>Logout</DropdownItem>
-  </Dropdown>
-);
-
 const Navbar = () => {
   const [isMenuOpened, toggleIsMenuOpened] = useReducer(
     (isMenuOpened) => !isMenuOpened,
@@ -69,10 +46,35 @@ const Navbar = () => {
     if (refreshToken && accessToken) {
       dispatch(validateToken({accessToken, refreshToken}));
       toggleHasValidationCompleted(true);
+    } else {
+      dispatch(userHasLoggedOut());
     }
   }, [])
 
   const userDataState = useSelector((state: RootState) => state.userData);
+
+  const ProfileDropdown = ({userData}: {userData: UserData}) => (
+    <Dropdown
+      togglerRender={(props) => (
+        <IconButton
+          className="w-7 h-7 md:w-10 md:h-10"
+          {...props}
+          icon={
+            <div
+              className='h-full w-full rounded-full bg-gray-700'
+            >
+            </div>
+          }></IconButton>
+      )}
+      containerAlign='right'>
+      <DropdownItem disabled>{userData.name}</DropdownItem>
+      <DropdownItem divider>Profil Saya</DropdownItem>
+      <DropdownItem>Bookmarks</DropdownItem>
+      <DropdownItem divider>Pengaturan</DropdownItem>
+      <DropdownItem>Privasi</DropdownItem>
+      <DropdownItem onClick={() => dispatch(logoutUser(userData.username))}>Logout</DropdownItem>
+    </Dropdown>
+  );
 
   if (userDataState == 'loading') return null;
   return (

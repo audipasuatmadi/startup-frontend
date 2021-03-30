@@ -9,7 +9,10 @@ import {
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../states/RootReducer';
 import { Action } from 'redux';
-import { setLocalStorageData, removeLocalStorgeData } from '../utils/LocalStorageUtil';
+import {
+  setLocalStorageData,
+  removeLocalStorgeData,
+} from '../utils/LocalStorageUtil';
 
 describe('UserActions Action Creator Tests', () => {
   it('should return the right action if user data is loading', () => {
@@ -98,6 +101,8 @@ describe('registerUser Thunk Tests', () => {
     expect(dispatch).toHaveBeenCalledWith(UserActions.userDataIsLoading());
     expect(userDataIsLoadingMock).toHaveBeenCalled();
     mockedUserRegisterAPI.mockClear();
+
+    userDataIsLoadingMock.mockClear();
   });
 
   it('should call the register API', async () => {
@@ -120,6 +125,7 @@ describe('registerUser Thunk Tests', () => {
     expect(userHasLoggedInMock).toHaveBeenCalled();
 
     mockedUserRegisterAPI.mockClear();
+    userHasLoggedInMock.mockClear();
   });
 
   it('should call localstorage store function to store tokens to localStorage if succeed', async () => {
@@ -154,6 +160,8 @@ describe('registerUser Thunk Tests', () => {
       UserActions.errorOccuredInRegisteringUser(dummyRegisterErrorReturnValue)
     );
     expect(mockedErrorOccuredInRegisteringUser).toHaveBeenCalled();
+
+    mockedErrorOccuredInRegisteringUser.mockClear();
   });
 });
 describe('loginUser thunk tests', () => {
@@ -196,62 +204,91 @@ describe('loginUser thunk tests', () => {
       UserActions.userDataIsLoading()
     );
     expect(userDataIsLoadingMock).toHaveBeenCalled();
+
+    userDataIsLoadingMock.mockClear();
   });
 
   it('should call the login API', async () => {
     await loginUserCall(mockedDispatch, jest.fn(), null);
-    expect(mockedUserLoginAPI).toHaveBeenCalledTimes(1)
-  })
-  
+    expect(mockedUserLoginAPI).toHaveBeenCalledTimes(1);
+  });
+
   it('should call the login API with the right credentials', async () => {
     await loginUserCall(mockedDispatch, jest.fn(), null);
-    expect(mockedUserLoginAPI).toHaveBeenCalledWith({username: 'johndoe', password: 'password'})
-  })
+    expect(mockedUserLoginAPI).toHaveBeenCalledWith({
+      username: 'johndoe',
+      password: 'password',
+    });
+  });
 
   it('should call 2 setLocalStorage if successful login attempt', async () => {
-    mockedUserLoginAPI.mockReturnValue(Promise.resolve({data: dummyLoginSuccessResponse}))
+    mockedUserLoginAPI.mockReturnValue(
+      Promise.resolve({ data: dummyLoginSuccessResponse })
+    );
 
-    const mockedSetLocalStorage: jest.Mock = setLocalStorageData as jest.Mock
+    const mockedSetLocalStorage: jest.Mock = setLocalStorageData as jest.Mock;
     await loginUserCall(mockedDispatch, jest.fn(), null);
     expect(mockedSetLocalStorage).toHaveBeenCalledTimes(2);
-    
+
     mockedSetLocalStorage.mockClear();
-  })
+  });
 
   it('should dispatch user data if successful login attempt', async () => {
-    mockedUserLoginAPI.mockReturnValue(Promise.resolve({data: {name: 'John Doe', username: 'johndoe', accessToken: 'adw', refreshToken: 'awdad'}}))
+    mockedUserLoginAPI.mockReturnValue(
+      Promise.resolve({
+        data: {
+          name: 'John Doe',
+          username: 'johndoe',
+          accessToken: 'adw',
+          refreshToken: 'awdad',
+        },
+      })
+    );
 
     await loginUserCall(mockedDispatch, jest.fn(), null);
 
     expect(mockedDispatch).toHaveBeenCalled();
-    expect(mockedDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedIn({name: 'John Doe', username: 'johndoe'}));
-  })
+    expect(mockedDispatch).toHaveBeenCalledWith(
+      UserActions.userHasLoggedIn({ name: 'John Doe', username: 'johndoe' })
+    );
+  });
 
   it('should call removeLocalStorage if unsuccessful login attempt', async () => {
-    mockedUserLoginAPI.mockReturnValue(Promise.resolve({isAxiosError: true, response: {data: {username: 'username tidak valid'}}}))
+    mockedUserLoginAPI.mockReturnValue(
+      Promise.resolve({
+        isAxiosError: true,
+        response: { data: { username: 'username tidak valid' } },
+      })
+    );
 
     const mockedRemoveLocalStorage: jest.Mock = removeLocalStorgeData as jest.Mock;
     await loginUserCall(mockedDispatch, jest.fn(), null);
     expect(mockedRemoveLocalStorage).toHaveBeenCalledTimes(2);
 
     mockedRemoveLocalStorage.mockClear();
-  })
+  });
 
   it('should dispatch userHasLoggedOut if unsuccessful login attempt', async () => {
-    mockedUserLoginAPI.mockReturnValue(Promise.resolve({isAxiosError: true, response: {data: {username: 'username tidak valid'}}}))
+    mockedUserLoginAPI.mockReturnValue(
+      Promise.resolve({
+        isAxiosError: true,
+        response: { data: { username: 'username tidak valid' } },
+      })
+    );
 
     await loginUserCall(mockedDispatch, jest.fn(), null);
-    
-    expect(mockedDispatch).toHaveBeenCalled()
+
+    expect(mockedDispatch).toHaveBeenCalled();
     expect(mockedDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedOut());
-  })
+  });
 });
 
-describe("validateToken thunk tests", () => {
-
+describe('validateToken thunk tests', () => {
   const dummyTokens: AuthenticationTokens = {
-    accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2lsIiwibmFtZSI6IlJhZ2lsIiwiaWF0IjoxNjE2MTUzMDM0LCJleHAiOjE2MTYxNTY2MzR9.vxm1Nb11ZWloEtQ6mdPFiXethFkzRYEwTqmHnmfhYIM",
-    refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2lsIiwibmFtZSI6IlJhZ2lsIiwiaWF0IjoxNjE2MTUzMDM0fQ.is3nFpIEzkw6Gatbxx4YUH94ev1hPiyFrLD4jSITdEQ"
+    accessToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2lsIiwibmFtZSI6IlJhZ2lsIiwiaWF0IjoxNjE2MTUzMDM0LCJleHAiOjE2MTYxNTY2MzR9.vxm1Nb11ZWloEtQ6mdPFiXethFkzRYEwTqmHnmfhYIM',
+    refreshToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2lsIiwibmFtZSI6IlJhZ2lsIiwiaWF0IjoxNjE2MTUzMDM0fQ.is3nFpIEzkw6Gatbxx4YUH94ev1hPiyFrLD4jSITdEQ',
   };
 
   let validateTokenThunk: ThunkAction<
@@ -261,7 +298,8 @@ describe("validateToken thunk tests", () => {
     Action<string>
   > = UserActions.validateToken(dummyTokens);
 
-  let validateTokenCall = () => validateTokenThunk(mockedDispatch, jest.fn(), null);
+  let validateTokenCall = () =>
+    validateTokenThunk(mockedDispatch, jest.fn(), null);
 
   let mockedDispatch: jest.Mock;
   let mockedValidateTokenAPI: jest.Mock;
@@ -269,24 +307,87 @@ describe("validateToken thunk tests", () => {
   beforeEach(() => {
     mockedDispatch = jest.fn();
     mockedValidateTokenAPI = UserAPI.validateToken as jest.Mock;
-  })
+  });
 
   beforeEach(() => {
     if (mockedDispatch) mockedDispatch.mockClear();
     if (mockedValidateTokenAPI) mockedValidateTokenAPI.mockClear();
-  })
-
+  });
 
   it('should dispatch userDataIsLoading UserActions first', () => {
     validateTokenCall();
     expect(mockedDispatch).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('should dispatch the API to validates token', async () => {
     await validateTokenCall();
     expect(mockedValidateTokenAPI).toHaveBeenCalledTimes(1);
     expect(mockedValidateTokenAPI).toHaveBeenCalledWith(dummyTokens);
-  })
+  });
+});
 
+describe('logout user thunk tests', () => {
+  const pUsername = 'johndoe';
 
-})
+  const logoutUserThunk: ThunkAction<
+    void,
+    RootState,
+    null,
+    Action<string>
+  > = UserActions.logoutUser(pUsername);
+
+  let mDispatch: jest.Mock;
+  let mLogoutAPI: jest.Mock;
+
+  const logoutThunkCall = () => logoutUserThunk(mDispatch, jest.fn(), null);
+
+  beforeEach(() => {
+    mDispatch = jest.fn();
+    mLogoutAPI = UserAPI.logout as jest.Mock;
+  });
+
+  afterEach(() => {
+    if (mDispatch) mDispatch.mockClear();
+    if (mLogoutAPI) mLogoutAPI.mockClear();
+  });
+
+  it('should call dispatch with isLoading first and foremost', () => {
+    const mUserDataisLoading = jest.spyOn(UserActions, 'userDataIsLoading');
+    logoutThunkCall();
+    expect(mDispatch).toHaveBeenCalled();
+    expect(mUserDataisLoading).toHaveBeenCalled();
+    expect(mDispatch).toHaveBeenCalledWith(UserActions.userDataIsLoading());
+
+    mUserDataisLoading.mockClear();
+  });
+
+  it('should call logout API with the right arguments', async () => {
+    await logoutThunkCall();
+    expect(mLogoutAPI).toHaveBeenCalled();
+    expect(mLogoutAPI).toHaveBeenCalledWith(pUsername);
+  });
+
+  it('should call remove keys from localstorage with the right arguments', async () => {
+    const mRemoveLocalStorage = removeLocalStorgeData as jest.Mock;
+    mRemoveLocalStorage.mockClear();
+
+    await logoutThunkCall();
+
+    expect(mRemoveLocalStorage).toHaveBeenCalledTimes(2);
+    expect(mRemoveLocalStorage).toHaveBeenNthCalledWith(1, 'at');
+    console.log('here');
+    expect(mRemoveLocalStorage).toHaveBeenNthCalledWith(2, 'rt');
+
+    mRemoveLocalStorage.mockClear();
+  });
+
+  it('should call dispatch with hasLoggedOut thunk', async () => {
+    const mUserHasLoggedOut = jest.spyOn(UserActions, 'userHasLoggedOut');
+
+    await logoutThunkCall();
+    expect(mUserHasLoggedOut).toHaveBeenCalled();
+    expect(mDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedOut());
+
+    mUserHasLoggedOut.mockClear();
+  });
+});
