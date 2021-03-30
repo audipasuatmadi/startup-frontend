@@ -101,6 +101,8 @@ describe('registerUser Thunk Tests', () => {
     expect(dispatch).toHaveBeenCalledWith(UserActions.userDataIsLoading());
     expect(userDataIsLoadingMock).toHaveBeenCalled();
     mockedUserRegisterAPI.mockClear();
+
+    userDataIsLoadingMock.mockClear();
   });
 
   it('should call the register API', async () => {
@@ -123,6 +125,7 @@ describe('registerUser Thunk Tests', () => {
     expect(userHasLoggedInMock).toHaveBeenCalled();
 
     mockedUserRegisterAPI.mockClear();
+    userHasLoggedInMock.mockClear();
   });
 
   it('should call localstorage store function to store tokens to localStorage if succeed', async () => {
@@ -157,6 +160,8 @@ describe('registerUser Thunk Tests', () => {
       UserActions.errorOccuredInRegisteringUser(dummyRegisterErrorReturnValue)
     );
     expect(mockedErrorOccuredInRegisteringUser).toHaveBeenCalled();
+
+    mockedErrorOccuredInRegisteringUser.mockClear();
   });
 });
 describe('loginUser thunk tests', () => {
@@ -199,6 +204,8 @@ describe('loginUser thunk tests', () => {
       UserActions.userDataIsLoading()
     );
     expect(userDataIsLoadingMock).toHaveBeenCalled();
+
+    userDataIsLoadingMock.mockClear();
   });
 
   it('should call the login API', async () => {
@@ -350,6 +357,8 @@ describe('logout user thunk tests', () => {
     expect(mDispatch).toHaveBeenCalled();
     expect(mUserDataisLoading).toHaveBeenCalled();
     expect(mDispatch).toHaveBeenCalledWith(UserActions.userDataIsLoading());
+
+    mUserDataisLoading.mockClear();
   });
 
   it('should call logout API with the right arguments', async () => {
@@ -360,12 +369,16 @@ describe('logout user thunk tests', () => {
 
   it('should call remove keys from localstorage with the right arguments', async () => {
     const mRemoveLocalStorage = removeLocalStorgeData as jest.Mock;
+    mRemoveLocalStorage.mockClear();
 
     await logoutThunkCall();
 
     expect(mRemoveLocalStorage).toHaveBeenCalledTimes(2);
     expect(mRemoveLocalStorage).toHaveBeenNthCalledWith(1, 'at');
+    console.log('here');
     expect(mRemoveLocalStorage).toHaveBeenNthCalledWith(2, 'rt');
+
+    mRemoveLocalStorage.mockClear();
   });
 
   it('should call dispatch with hasLoggedOut thunk', async () => {
@@ -374,5 +387,7 @@ describe('logout user thunk tests', () => {
     await logoutThunkCall();
     expect(mUserHasLoggedOut).toHaveBeenCalled();
     expect(mDispatch).toHaveBeenCalledWith(UserActions.userHasLoggedOut());
+
+    mUserHasLoggedOut.mockClear();
   });
 });
