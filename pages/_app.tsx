@@ -4,9 +4,10 @@ import { useStore } from '../states/Store'
 import Navbar from '../components/navbars/Navbar'
 import { Store } from 'redux'
 import { useRouter } from 'next/router'
+import DevNavbar from '../components/navbars/DevNavbar'
 
 const FinalNavbar = ({path}: {path: string}) => (
-  path != '/articles/new' && <Navbar />
+  path === '/articles/new'? <DevNavbar /> : <Navbar />
 )
 
 function MyApp({ Component, pageProps }) {
