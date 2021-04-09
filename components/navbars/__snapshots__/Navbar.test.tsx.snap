@@ -2,7 +2,7 @@
 
 exports[`Navbar rendering tests should render the main components correctly 1`] = `
 <nav
-  className="fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50"
+  className="fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50 top-0"
 >
   <Link
     href="/"
@@ -102,7 +102,7 @@ exports[`Navbar rendering tests should render the main components correctly 1`] 
 
 exports[`Navbar rendering tests should render the right buttons when user is logged in 1`] = `
 <nav
-  className="fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50"
+  className="fixed w-screen flex items-center py-2 shadow h-14 bg-white z-50 top-0"
 >
   <Link
     href="/"
