@@ -1,4 +1,6 @@
 import React from 'react'
+import DevNavbar from '../../components/navbars/DevNavbar'
+import WriteToolbar from '../../components/navbars/WriteToolbar'
 
 interface Props {
   
@@ -6,9 +8,10 @@ interface Props {
 
 const newArticle = (props: Props) => {
   return (
-    <div>
-      
-    </div>
+    <>
+      <DevNavbar />
+      <WriteToolbar />
+    </>
   )
 }
 
