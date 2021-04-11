@@ -16,7 +16,7 @@ const breakpointValues = {
   md: 2,
   lg: 3,
   xl: 4,
-  xxl: 5,
+  '2xl': 5,
 };
 
 export const checkBreakpoint = (windowWidth: number): TailwindBreakpoints => {

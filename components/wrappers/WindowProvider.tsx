@@ -11,14 +11,19 @@ interface Props {
 const WindowProvider = ({ children }: Props) => {
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState<TailwindBreakpoints>('base');
-  dispatch(windowSizeChanged(windowWidth));
+  
 
   useEffect(() => {
     setWindowWidth(checkBreakpoint(window.innerWidth));
 
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', () => {
-        setWindowWidth(checkBreakpoint(window.innerWidth));
+        const breakpoint = checkBreakpoint(window.innerWidth)
+        console.log(breakpoint)
+        if (windowWidth !== breakpoint) {
+          setWindowWidth(breakpoint);
+          dispatch(windowSizeChanged(breakpoint));
+        }
       });
     }
   }, []);
