@@ -12,6 +12,7 @@ export interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
 
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
   rounded?: boolean;
   outlined?: boolean;
