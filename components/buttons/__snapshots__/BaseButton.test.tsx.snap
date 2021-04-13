@@ -5,6 +5,7 @@ exports[`BaseButton rendering tests should render properly as a button when disa
   className="cursor-default"
   disabled={true}
   onClick={false}
+  onMouseDown={false}
 />
 `;
 
