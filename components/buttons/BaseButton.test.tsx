@@ -5,12 +5,17 @@ import BaseButton from './BaseButton'
 describe('BaseButton functionality tests', () => {
   it('should clickable if not disabled', () => {
     const mockFunction = jest.fn()
-    const wrapper = shallow(<BaseButton onClick={mockFunction} onMouseDown={mockFunction} />)
+    const secondMockFunction = jest.fn();
+    const wrapper = shallow(<BaseButton onClick={mockFunction} onMouseDown={secondMockFunction} />)
     
     wrapper.find('button').simulate('click')
+    wrapper.find('button').simulate('mousedown')
     expect(mockFunction).toHaveBeenCalled()
+    expect(secondMockFunction).toHaveBeenCalled()
     wrapper.find('button').simulate('click')
-    expect(mockFunction).toHaveBeenCalledTimes(4)
+    wrapper.find('button').simulate('mousedown')
+    expect(mockFunction).toHaveBeenCalledTimes(2)
+    expect(secondMockFunction).toHaveBeenCalledTimes(2)
   });
 
   it('should be not clickable if disabled', () => {
