@@ -11,6 +11,7 @@ export interface BaseButtonProps {
   type?: 'button' | 'submit' | 'reset';
 
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 }
 
 /**
@@ -24,6 +25,7 @@ const BaseButton = ({
   href,
   disabled,
   onClick,
+  onMouseDown,
   children,
   type,
   className,
@@ -42,7 +44,9 @@ const BaseButton = ({
       className={finalStyles !== '' ? finalStyles : undefined}
       disabled={disabled}
       type={type}
-      onClick={!disabled && onClick}>
+      onClick={!disabled && onClick}
+      onMouseDown={!disabled && onMouseDown}
+    >
       {children}
     </button>
   );
