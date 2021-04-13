@@ -9,12 +9,13 @@ import {
 
 export interface ArticleFieldProps {
   className?: string;
+  articleState: EditorState;
+  setArticleState: React.Dispatch<React.SetStateAction<EditorState>>;
 }
 
-const ArticleField = ({ className }: ArticleFieldProps) => {
+const ArticleField = ({ className, articleState, setArticleState }: ArticleFieldProps) => {
   if (typeof window == 'undefined') return <p></p>;
 
-  const [articleState, setArticleState] = useState(EditorState.createEmpty());
   const editorRef = useRef<Editor>(null);
 
   const handleKeyCommand = (
