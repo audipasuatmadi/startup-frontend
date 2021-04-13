@@ -1,15 +1,34 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Editor, EditorState } from 'draft-js';
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  DraftEditorCommand,
+  DraftHandleValue,
+} from 'draft-js';
 
 export interface ArticleFieldProps {
   className?: string;
 }
 
 const ArticleField = ({ className }: ArticleFieldProps) => {
-  if (typeof window == "undefined") return <p></p>
+  if (typeof window == 'undefined') return <p></p>;
 
   const [articleState, setArticleState] = useState(EditorState.createEmpty());
-  const editorRef = useRef<Editor>(null)
+  const editorRef = useRef<Editor>(null);
+
+  const handleKeyCommand = (
+    command: DraftEditorCommand,
+    editorState: EditorState
+  ): DraftHandleValue => {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+
+    if (newState) {
+      setArticleState(newState);
+      return 'handled';
+    }
+    return 'not-handled';
+  };
 
   useEffect(() => {
     if (editorRef !== null) editorRef.current.focus();
@@ -17,10 +36,11 @@ const ArticleField = ({ className }: ArticleFieldProps) => {
 
   return (
     <section className={`${className}`}>
-      <article className="max-w-2xl mx-auto">
-        <Editor 
-          editorState={articleState} 
+      <article className='max-w-2xl mx-auto'>
+        <Editor
+          editorState={articleState}
           onChange={setArticleState}
+          handleKeyCommand={handleKeyCommand}
           ref={editorRef}
         />
       </article>
