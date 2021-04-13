@@ -15,7 +15,7 @@ const newArticle = (props: Props) => {
   //   RichUtils.toggleInlineStyle(articleState, inlineStyle)
   // }
   const handleRichText = (inlineStyle: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(inlineStyle)
+    e.preventDefault()
     setArticleState(RichUtils.toggleInlineStyle(articleState, inlineStyle))
   }
 
