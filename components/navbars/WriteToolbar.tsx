@@ -3,7 +3,9 @@ import IconButton from '../buttons/IconButton';
 import Image from 'next/image';
 
 interface WriteToolbarProps {
-  richTextHandler: (inlineStyle: string) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  richTextHandler: (
+    inlineStyle: string
+  ) => (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const WriteToolbar = ({ richTextHandler }: WriteToolbarProps) => {
@@ -13,20 +15,13 @@ const WriteToolbar = ({ richTextHandler }: WriteToolbarProps) => {
         <li className='inline-block'>
           <ul className='space-x-2'>
             <li className='inline-block'>
-              <IconButton
-                onClick={richTextHandler('BOLD')}
-                icon={<strong>H1</strong>}
-              />
+              <IconButton icon={<strong>H1</strong>} />
             </li>
             <li className='inline-block'>
-              <IconButton
-                icon={<strong>H2</strong>}
-              />
+              <IconButton icon={<strong>H2</strong>} />
             </li>
             <li className='inline-block'>
-              <IconButton
-                icon={<strong>H3</strong>}
-              />
+              <IconButton icon={<strong>H3</strong>} />
             </li>
           </ul>
         </li>
@@ -35,15 +30,21 @@ const WriteToolbar = ({ richTextHandler }: WriteToolbarProps) => {
             <li className='inline-block'>
               <IconButton
                 icon={<strong>B</strong>}
-                // onClick={}
+                onMouseDown={richTextHandler('BOLD')}
               />
             </li>
 
             <li className='inline-block'>
-              <IconButton icon={<em>I</em>} />
+              <IconButton
+                icon={<em>I</em>}
+                onMouseDown={richTextHandler('ITALIC')}
+              />
             </li>
             <li className='inline-block'>
-              <IconButton icon={<u>U</u>} />
+              <IconButton
+                icon={<u>U</u>}
+                onMouseDown={richTextHandler('UNDERLINE')}
+              />
             </li>
           </ul>
         </li>
