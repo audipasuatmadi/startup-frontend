@@ -9,6 +9,7 @@ export interface IconButtonProps {
   type?: 'button' | 'submit' | 'reset';
 
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   icon:  React.FunctionComponent<React.SVGProps<SVGSVGElement>> | (() => JSX.Element) | JSX.Element;
 }
 
