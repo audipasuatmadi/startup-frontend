@@ -1,11 +1,14 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import IconButton from '../buttons/IconButton';
 import Image from 'next/image';
-import { checkBreakpoint } from '../../lib/utils/WindowUtil';
 
-interface Props {}
+interface WriteToolbarProps {
+  richTextHandler: (
+    inlineStyle: string
+  ) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
-const WriteToolbar = (props: Props) => {
+const WriteToolbar = ({ richTextHandler }: WriteToolbarProps) => {
   return (
     <nav className='fixed w-screen flex items-center justify-between py-2 shadow h-14 bg-brand z-40 top-0 mt-12'>
       <ul className='text-center w-full text-white flex items-center justify-center space-x-10'>
@@ -25,14 +28,23 @@ const WriteToolbar = (props: Props) => {
         <li className='inline-block'>
           <ul className='space-x-2'>
             <li className='inline-block'>
-              <IconButton icon={<strong>B</strong>} />
+              <IconButton
+                icon={<strong>B</strong>}
+                onMouseDown={richTextHandler('BOLD')}
+              />
             </li>
 
             <li className='inline-block'>
-              <IconButton icon={<em>I</em>} />
+              <IconButton
+                icon={<em>I</em>}
+                onMouseDown={richTextHandler('ITALIC')}
+              />
             </li>
             <li className='inline-block'>
-              <IconButton icon={<u>U</u>} />
+              <IconButton
+                icon={<u>U</u>}
+                onMouseDown={richTextHandler('UNDERLINE')}
+              />
             </li>
           </ul>
         </li>
