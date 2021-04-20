@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../states/RootReducer';
 import { widthHigherThan } from '../../lib/utils/WindowUtil';
 
-interface Props {}
+interface Props {
+  handleSave: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
 const MobileDevMenu = () => (
   <>
@@ -37,7 +39,7 @@ const MobileDevMenu = () => (
   </>
 );
 
-const DesktopDevMenu = () => (
+const DesktopDevMenu = ({ handleSave }: Props) => (
   <>
     <div className="flex gap-10">
       <IconButton
@@ -60,6 +62,7 @@ const DesktopDevMenu = () => (
             alt='search bar image'
           />
         }
+        onMouseDown={handleSave}
         className='ml-3'
       />
       <IconButton
@@ -122,7 +125,7 @@ const DevNavbar = (props: Props) => {
     <nav className='fixed w-screen flex items-center justify-between py-2 shadow h-14 bg-brand z-50 top-0'>
       {
         widthHigherThan(screenSize, 'sm')
-          ? <DesktopDevMenu />
+          ? <DesktopDevMenu {...props} />
           : <MobileDevMenu />
       }
     </nav>

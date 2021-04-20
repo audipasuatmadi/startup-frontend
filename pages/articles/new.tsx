@@ -2,7 +2,7 @@ import React, { useState, useReducer } from 'react';
 import DevNavbar from '../../components/navbars/DevNavbar';
 import WriteToolbar from '../../components/navbars/WriteToolbar';
 import ArticleField from '../../components/inputfields/ArticleField';
-import { EditorState, RichUtils } from 'draft-js';
+import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import createImagePlugin from '@draft-js-plugins/image';
 import Modal from '../../components/modals/Modal';
 
@@ -35,9 +35,15 @@ const newArticle = () => {
     setArticleState(RichUtils.toggleBlockType(articleState, bType));
   };
 
+  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const contentState = articleState.getCurrentContent();
+    const preparedContent = JSON.stringify(convertToRaw(contentState));
+  }
+
   return (
     <>
-      <DevNavbar />
+      <DevNavbar handleSave={handleSave} />
       <WriteToolbar
         richTextHandler={handleRichText}
         onImageClick={handleImageClick}
