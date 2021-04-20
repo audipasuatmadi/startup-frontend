@@ -26,11 +26,6 @@ export interface UserData {
   profilePicURL?: string;
 }
 
-export interface AuthenticationTokens {
-  accessToken: string;
-  refreshToken: string;
-}
-
 export interface UserAction extends BaseActionType {
   payload?: UserData;
 }
@@ -43,7 +38,7 @@ export interface LoginErrorAction extends BaseActionType {
   payload: RegistrationFailedResponse
 }
 
-export type RegistrationSuccessResponse = UserData & AuthenticationTokens
+export type RegistrationSuccessResponse = UserData;
 
 export interface UserRegisterForm extends UserCredentials {
   passwordConfirm: string;
@@ -63,7 +58,9 @@ export const isRegisterSuccessResponse = (
 ): obj is AxiosResponse<RegistrationSuccessResponse> => {
   if (typeof obj !== 'object') return false;
   if ('status' in obj || 'data' in obj) {
-    if ('accessToken' in obj.data && 'refreshToken' in obj.data && 'name' in obj.data && 'username' in obj.data) return true;
+    if (obj.status === 200 || obj.status === 201) {
+      if ('name' in obj.data && 'username' in obj.data) return true;
+    }
     return false;
   }
   return false;
