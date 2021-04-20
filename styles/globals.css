@@ -10,11 +10,17 @@
     a {
         -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
-    }
+    };
+    img {
+        @apply text-center bg-red-500 p-20;
+    };
 }
 
 @layer components {
     .button {
         @apply px-6 py-2 min-w-2 select-none rounded focus:outline-none font-semibold;
+    };
+    .content-img-container {
+        @apply flex justify-center;
     }
 }
