@@ -8,7 +8,9 @@ export default {
     let response: AxiosResponse | AxiosError<EditorApiErrorResponse>
 
     try {
-      response = await axios.post('/articles/new', content);
+      response = await axios.post('/articles', {
+        content: content
+      });
     } catch (e) {
       response = e;
       if (isEditorApiErrorResponse(response)) {
