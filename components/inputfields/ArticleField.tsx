@@ -12,17 +12,31 @@ export interface ArticleFieldProps {
   className?: string;
   articleState: EditorState;
   setArticleState: React.Dispatch<React.SetStateAction<EditorState>>;
-  plugins?: any[]
+  plugins?: any[];
 }
+
+const typeMap = {
+  'header-two': 'text-2xl font-bold',
+  'header-three': 'text-xl font-bold',
+  'header-four': 'text-lg font-bold',
+};
 
 function handleStyling(contentBlock: ContentBlock) {
   const type = contentBlock.getType();
   if (type === 'atomic') {
     return 'content-img-container';
   }
+  if (typeMap[type]) {
+    return typeMap[type];
+  }
 }
 
-const ArticleField = ({ className, articleState, setArticleState, plugins }: ArticleFieldProps) => {
+const ArticleField = ({
+  className,
+  articleState,
+  setArticleState,
+  plugins,
+}: ArticleFieldProps) => {
   if (typeof window == 'undefined') return <p></p>;
 
   const editorRef = useRef<Editor>(null);
@@ -39,8 +53,6 @@ const ArticleField = ({ className, articleState, setArticleState, plugins }: Art
     }
     return 'not-handled';
   };
-
-  
 
   useEffect(() => {
     if (editorRef !== null) editorRef.current.focus();
