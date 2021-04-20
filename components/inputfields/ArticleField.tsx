@@ -1,19 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import Editor from '@draft-js-plugins/editor';
 import {
-  Editor,
   EditorState,
   RichUtils,
   DraftEditorCommand,
   DraftHandleValue,
+  ContentBlock,
 } from 'draft-js';
 
 export interface ArticleFieldProps {
   className?: string;
   articleState: EditorState;
   setArticleState: React.Dispatch<React.SetStateAction<EditorState>>;
+  plugins?: any[]
 }
 
-const ArticleField = ({ className, articleState, setArticleState }: ArticleFieldProps) => {
+function handleStyling(contentBlock: ContentBlock) {
+  const type = contentBlock.getType();
+  if (type === 'atomic') {
+    return 'content-img-container';
+  }
+}
+
+const ArticleField = ({ className, articleState, setArticleState, plugins }: ArticleFieldProps) => {
   if (typeof window == 'undefined') return <p></p>;
 
   const editorRef = useRef<Editor>(null);
@@ -31,6 +40,8 @@ const ArticleField = ({ className, articleState, setArticleState }: ArticleField
     return 'not-handled';
   };
 
+  
+
   useEffect(() => {
     if (editorRef !== null) editorRef.current.focus();
   }, [editorRef]);
@@ -43,6 +54,8 @@ const ArticleField = ({ className, articleState, setArticleState }: ArticleField
           onChange={setArticleState}
           handleKeyCommand={handleKeyCommand}
           ref={editorRef}
+          plugins={plugins}
+          blockStyleFn={handleStyling}
         />
       </article>
     </section>
