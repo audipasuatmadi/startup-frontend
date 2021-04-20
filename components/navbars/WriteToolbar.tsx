@@ -6,23 +6,39 @@ interface WriteToolbarProps {
   richTextHandler: (
     inlineStyle: string
   ) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  blockTypeHandler: (
+    bType: string
+  ) => (e: React.MouseEvent<HTMLButtonElement>) => void;
   onImageClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const WriteToolbar = ({ richTextHandler, onImageClick }: WriteToolbarProps) => {
+const WriteToolbar = ({
+  richTextHandler,
+  blockTypeHandler,
+  onImageClick,
+}: WriteToolbarProps) => {
   return (
     <nav className='fixed w-screen flex items-center justify-between py-2 shadow h-14 bg-brand z-40 top-0 mt-12'>
       <ul className='text-center w-full text-white flex items-center justify-center space-x-10'>
         <li className='inline-block'>
           <ul className='space-x-2'>
             <li className='inline-block'>
-              <IconButton icon={<strong>H1</strong>} />
+              <IconButton
+                icon={<strong>H1</strong>}
+                onMouseDown={blockTypeHandler('header-two')}
+              />
             </li>
             <li className='inline-block'>
-              <IconButton icon={<strong>H2</strong>} />
+              <IconButton
+                icon={<strong>H2</strong>}
+                onMouseDown={blockTypeHandler('header-three')}
+              />
             </li>
             <li className='inline-block'>
-              <IconButton icon={<strong>H3</strong>} />
+              <IconButton
+                icon={<strong>H3</strong>}
+                onMouseDown={blockTypeHandler('header-four')}
+              />
             </li>
           </ul>
         </li>
