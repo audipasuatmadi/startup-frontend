@@ -61,6 +61,7 @@ export const loginUser = (
   const loginReturnData = await UserAPI.login(loginCredentials);
   if (isLoginSuccessResponse(loginReturnData)) {
     const { name, username } = loginReturnData.data;
+    console.log('im here')
     dispatch(userHasLoggedIn({ name, username }));
 
   }
