@@ -7,12 +7,7 @@ import {
   UserLoginRequestData,
   LoginSuccessResponse,
   LoginFailedResponse,
-  isLoginSuccessResponse,
-  AuthenticationTokens,
 } from '../lib/user/userTypes';
-import login from '../pages/login';
-import { number } from 'yup/lib/locale';
-import { validateToken } from '../lib/user/UserActions';
 
 export const unreachedServerError: AxiosError<RegistrationFailedResponse> = {
   config: {},

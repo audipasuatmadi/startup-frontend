@@ -102,9 +102,7 @@ describe('User Login Tests', () => {
 
   const dummyLoginSuccessResponse: LoginSuccessResponse = {
     name: 'John Doe',
-    username: 'johndoe',
-    accessToken: 'azdawda',
-    refreshToken: 'awdwadad'
+    username: 'johndoe'
   }
 
   beforeEach(() => {
