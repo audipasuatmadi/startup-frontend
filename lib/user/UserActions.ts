@@ -10,7 +10,6 @@ import {
   isLoginErrorResponse,
   LoginFailedResponse,
   LoginErrorAction,
-  AuthenticationTokens,
 } from './userTypes';
 import UserAPI from '../../apis/UserAPI';
 import { ThunkAction } from 'redux-thunk';
@@ -45,12 +44,8 @@ export const registerUser = (
       name,
       username,
       profilePicURL,
-      accessToken,
-      refreshToken,
     } = registerServiceResponse.data;
     dispatch(userHasLoggedIn({ name, username, profilePicURL }));
-    setLocalStorageData('at', accessToken);
-    setLocalStorageData('rt', refreshToken);
   } else {
     dispatch(userHasLoggedOut());
     const errorData = registerServiceResponse.response.data;
@@ -65,26 +60,19 @@ export const loginUser = (
 
   const loginReturnData = await UserAPI.login(loginCredentials);
   if (isLoginSuccessResponse(loginReturnData)) {
-    const { accessToken, refreshToken, name, username } = loginReturnData.data;
+    const { name, username } = loginReturnData.data;
     dispatch(userHasLoggedIn({ name, username }));
 
-    setLocalStorageData('at', accessToken);
-    setLocalStorageData('rt', refreshToken);
   }
 
   if (isLoginErrorResponse(loginReturnData)) {
     dispatch(userHasLoggedOut());
     dispatch(errorOccuredInUserLogin(loginReturnData.response.data));
 
-    removeLocalStorgeData('at');
-    removeLocalStorgeData('rt');
   }
 };
 
-export const validateToken = ({
-  accessToken,
-  refreshToken,
-}: AuthenticationTokens): ThunkAction<
+export const validateToken = (): ThunkAction<
   void,
   RootState,
   null,
@@ -92,19 +80,15 @@ export const validateToken = ({
 > => async (dispatch) => {
   dispatch(userDataIsLoading());
 
-  const validateReturnData = await UserAPI.validateToken({accessToken, refreshToken});
-  if (isLoginSuccessResponse(validateReturnData)) {
-    const { accessToken, refreshToken, name, username } = validateReturnData.data;
-    dispatch(userHasLoggedIn({ name, username }));
-
-    setLocalStorageData('at', accessToken);
-    setLocalStorageData('rt', refreshToken);
-  } else if (isLoginErrorResponse(validateReturnData)) {
+  const validateReturnData = await UserAPI.validateToken();
+  if ('status' in validateReturnData) {
+    if (validateReturnData.status !== 200 && validateReturnData.status !== 201) {
+      dispatch(userHasLoggedOut());
+    } else {
+      dispatch(userHasLoggedIn(validateReturnData.data));
+    }
+  } else {
     dispatch(userHasLoggedOut());
-    dispatch(errorOccuredInUserLogin(validateReturnData.response.data));
-
-    removeLocalStorgeData('at');
-    removeLocalStorgeData('rt');
   }
 };
 

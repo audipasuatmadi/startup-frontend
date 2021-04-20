@@ -73,13 +73,13 @@ export default {
     }
   },
 
-  async validateToken(tokens: AuthenticationTokens) {
+  async validateToken() {
     let response:
       | AxiosResponse<LoginSuccessResponse>
       | AxiosError<LoginFailedResponse>;
     
     try {
-      response = await axios.post('/users/validate', tokens);
+      response = await axios.post('/users/validate');
       return response;
     } catch (e) {
       response = e as AxiosError<LoginFailedResponse>

@@ -40,15 +40,9 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const accessToken = getLocalStorageData('at');
-    const refreshToken = getLocalStorageData('rt');
+    dispatch(validateToken());
+    toggleHasValidationCompleted(true);
 
-    if (refreshToken && accessToken) {
-      dispatch(validateToken({accessToken, refreshToken}));
-      toggleHasValidationCompleted(true);
-    } else {
-      dispatch(userHasLoggedOut());
-    }
   }, [])
 
   const userDataState = useSelector((state: RootState) => state.userData);
