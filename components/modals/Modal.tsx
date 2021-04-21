@@ -11,10 +11,13 @@ const Modal = ({children, isLabelOnly}: Props) => {
   
   return (
     <FocusTrap>
-      <div className="fixed m-0 left-0 right-0 z-50 w-screen h-screen bg-black opacity-50 flex items-center justify-center" tabIndex={0}>
-        {children}
-        {isLabelOnly && <div tabIndex={0} /> }
-      </div>
+      <>
+        <div className="fixed m-0 top-0 left-0 right-0 z-50 w-screen h-screen flex items-center justify-center" tabIndex={0}>
+          {children}
+          {isLabelOnly && <div tabIndex={0} /> }
+        </div>
+        <div className="bg-black opacity-50 fixed m-0 top-0 left-0 right-0 z-40 w-screen h-screen flex items-center justify-center"/>
+      </>
     </FocusTrap>
   )
 }

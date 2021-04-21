@@ -1,11 +1,17 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import DevNavbar from '../../components/navbars/DevNavbar';
 import WriteToolbar from '../../components/navbars/WriteToolbar';
 import ArticleField from '../../components/inputfields/ArticleField';
 import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import createImagePlugin from '@draft-js-plugins/image';
-import { useDispatch } from 'react-redux'
-import ArticleThunks from '../../lib/article/ArticleActions';
+import { useDispatch, useSelector } from 'react-redux';
+import ArticleThunks, {
+  articleNoAction,
+} from '../../lib/article/ArticleActions';
+import { RootState } from '../../states/RootReducer';
+import Modal from '../../components/modals/Modal';
+import ClipLoader from 'react-spinners/ClipLoader';
+import Button from '../../components/buttons/Button';
 
 const imagePlugin = createImagePlugin();
 const plugins = [imagePlugin];
@@ -15,6 +21,9 @@ const newArticle = () => {
     EditorState.createEmpty()
   );
   const dispatch = useDispatch();
+  const articleStatusState = useSelector(
+    (state: RootState) => state.articleState
+  );
   const handleRichText = (inlineStyle: string) => (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -42,10 +51,43 @@ const newArticle = () => {
     const contentState = articleState.getCurrentContent();
     const preparedContent = JSON.stringify(convertToRaw(contentState));
     dispatch(ArticleThunks.saveArticle(preparedContent));
-  }
+  };
 
   return (
     <>
+      {articleStatusState === 'loading' && (
+        <Modal isLabelOnly>
+          <ClipLoader color='#fff' loading size={150} />
+        </Modal>
+      )}
+      {articleStatusState === 'success' && (
+        <Modal>
+          <div className='bg-white rounded px-8 py-2'>
+            <p>Artikel berhasil di simpan!</p>
+            <Button
+              className='w-full'
+              onClick={() => {
+                dispatch(articleNoAction());
+              }}>
+              Siap
+            </Button>
+          </div>
+        </Modal>
+      )}
+      {articleStatusState === 'error' && (
+        <Modal>
+          <div className='bg-white rounded px-8 py-2'>
+            <p>Artikel gagal disimpan</p>
+            <Button
+              className='w-full'
+              onClick={() => {
+                dispatch(articleNoAction());
+              }}>
+              Siap
+            </Button>
+          </div>
+        </Modal>
+      )}
       <DevNavbar handleSave={handleSave} />
       <WriteToolbar
         richTextHandler={handleRichText}
