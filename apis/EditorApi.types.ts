@@ -1,18 +1,21 @@
-import { AxiosResponse } from "axios";
+import { AxiosResponse } from 'axios';
 
 export interface EditorApiErrorResponse {
-  message: string
+  message: string;
 }
 
-export const isEditorApiErrorResponse = (testedObj: any): testedObj is EditorApiErrorResponse => {
+export const isEditorApiErrorResponse = (
+  testedObj: any
+): testedObj is EditorApiErrorResponse => {
   if ('data' in testedObj) return false;
   if ('response' in testedObj === false) return false;
   return true;
-}
+};
 
-export const isEditorApiSuccessResponse = (testedObj: any): testedObj is AxiosResponse<string> => {
+export const isEditorApiSuccessResponse = (
+  testedObj: any
+): testedObj is AxiosResponse<string> => {
   if ('isAxiosError' in testedObj) return false;
-  if ('data' in testedObj)
-    if (typeof testedObj.data === 'string') return true;
+  if ('data' in testedObj) if (typeof testedObj.data === 'string') return true;
   return false;
-}
+};
