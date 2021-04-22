@@ -5,8 +5,10 @@ export interface ArticleAction extends BaseActionType {
 }
 
 export interface RawArticleData {
-  id: number;
-  writerId: number;
+  id?: number;
+  writerId?: number;
   title: string;
   content: string;
 }
+
+export interface BriefArticleData extends RawArticleData {}
