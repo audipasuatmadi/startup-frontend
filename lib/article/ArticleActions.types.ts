@@ -5,6 +5,8 @@ export interface ArticleAction extends BaseActionType {
 }
 
 export interface RawArticleData {
+  id: number;
+  writerId: number;
   title: string;
   content: string;
 }
