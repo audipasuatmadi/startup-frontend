@@ -21,6 +21,7 @@ export interface LoginFailedResponse {
 }
 
 export interface UserData {
+  id: number;
   name: string;
   username: string;
   profilePicURL?: string;
