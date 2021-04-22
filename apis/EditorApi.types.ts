@@ -16,6 +16,6 @@ export const isEditorApiSuccessResponse = (
   testedObj: any
 ): testedObj is AxiosResponse => {
   if ('isAxiosError' in testedObj) return false;
-  if ('data' in testedObj) if (typeof testedObj.data === 'object') return true;
+  if ('data' in testedObj) return true;
   return false;
 };
