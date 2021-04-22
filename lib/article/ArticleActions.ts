@@ -1,4 +1,4 @@
-import { ArticleAction } from './ArticleActions.types';
+import { ArticleAction, RawArticleData } from './ArticleActions.types';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../states/RootReducer';
 import { Action } from 'redux';
@@ -34,7 +34,7 @@ export const articleNoAction = (): ArticleAction => ({
 
 export default {
   saveArticle: (
-    content: string
+    content: RawArticleData
   ): ThunkAction<void, RootState, null, Action<string>> => async (dispatch) => {
     dispatch(articleIsLoading());
 

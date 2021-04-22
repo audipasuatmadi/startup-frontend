@@ -19,6 +19,7 @@ const imagePlugin = createImagePlugin();
 const plugins = [imagePlugin];
 
 const newArticle = () => {
+  const [articleTitle, setArticleTitle] = useState('');
   const [articleState, setArticleState] = useState<EditorState>(
     EditorState.createEmpty()
   );
@@ -52,8 +53,17 @@ const newArticle = () => {
     e.preventDefault();
     const contentState = articleState.getCurrentContent();
     const preparedContent = JSON.stringify(convertToRaw(contentState));
-    dispatch(ArticleThunks.saveArticle(preparedContent));
+    const articleData = {
+      title: articleTitle,
+      content: preparedContent
+    }
+    dispatch(ArticleThunks.saveArticle(articleData));
   };
+
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setArticleTitle(e.target.value);
+  }
 
   return (
     <>
@@ -90,7 +100,7 @@ const newArticle = () => {
           </div>
         </Modal>
       )}
-      <DevNavbar handleSave={handleSave} />
+      <DevNavbar handleSave={handleSave} title={articleTitle} />
       <WriteToolbar
         richTextHandler={handleRichText}
         onImageClick={handleImageClick}
@@ -102,6 +112,8 @@ const newArticle = () => {
             id="title"
             name="title"
             type="text"
+            value={articleTitle}
+            onChange={handleTitle}
           />
         </div>
         <ArticleField

@@ -5,15 +5,14 @@ import {
   isEditorApiErrorResponse,
 } from './EditorApi.types';
 import { unreachedServerError } from './UserAPI';
+import { RawArticleData } from '../lib/article/ArticleActions.types';
 
 export default {
-  async saveArticle(content: string) {
+  async saveArticle(content: RawArticleData) {
     let response: AxiosResponse | AxiosError<EditorApiErrorResponse>;
 
     try {
-      response = await axios.post('/articles', {
-        content: content,
-      });
+      response = await axios.post('/articles', content);
     } catch (e) {
       response = e;
       if (isEditorApiErrorResponse(response)) {
