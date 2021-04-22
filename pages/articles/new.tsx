@@ -60,7 +60,7 @@ const newArticle = () => {
     dispatch(ArticleThunks.saveArticle(articleData));
   };
 
-  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     setArticleTitle(e.target.value);
   }
@@ -117,7 +117,7 @@ const newArticle = () => {
           />
         </div>
         <ArticleField
-          className='mt-8 mx-2 md:mx-32'
+          className='mt-8 mx-2 sm:mx-12 lg:mx-32'
           articleState={articleState}
           setArticleState={setArticleState}
           plugins={plugins}
