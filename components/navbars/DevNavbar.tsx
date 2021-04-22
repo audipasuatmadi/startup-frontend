@@ -6,10 +6,11 @@ import { RootState } from '../../states/RootReducer';
 import { widthHigherThan } from '../../lib/utils/WindowUtil';
 
 interface Props {
+  title: string;
   handleSave: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const MobileDevMenu = () => (
+const MobileDevMenu = ({title, handleSave}: Props) => (
   <>
     <IconButton
       icon={
@@ -23,7 +24,13 @@ const MobileDevMenu = () => (
       className='ml-3'
     />
 
-    <h1 className='text-white'>Unnamed Article</h1>
+    <h1 className='text-white'>
+      {
+        title
+          ? title
+          : 'Unnamed Article'
+      }
+    </h1>
 
     <IconButton
       icon={
@@ -39,7 +46,7 @@ const MobileDevMenu = () => (
   </>
 );
 
-const DesktopDevMenu = ({ handleSave }: Props) => (
+const DesktopDevMenu = ({ handleSave, title }: Props) => (
   <>
     <div className="flex gap-10">
       <IconButton
@@ -78,7 +85,13 @@ const DesktopDevMenu = ({ handleSave }: Props) => (
       />
     </div>
 
-    <h1 className='text-white'>Unnamed Article</h1>
+    <h1 className='text-white'>
+      {
+        title
+          ? title
+          : 'Unnamed Article'
+      }
+    </h1>
 
     <div className='flex gap-10'>
       <IconButton
@@ -126,7 +139,7 @@ const DevNavbar = (props: Props) => {
       {
         widthHigherThan(screenSize, 'sm')
           ? <DesktopDevMenu {...props} />
-          : <MobileDevMenu />
+          : <MobileDevMenu {...props} />
       }
     </nav>
   );
