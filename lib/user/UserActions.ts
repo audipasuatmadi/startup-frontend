@@ -41,11 +41,12 @@ export const registerUser = (
   const registerServiceResponse = await UserAPI.register(userCredentials);
   if (isRegisterSuccessResponse(registerServiceResponse)) {
     const {
+      id,
       name,
       username,
       profilePicURL,
     } = registerServiceResponse.data;
-    dispatch(userHasLoggedIn({ name, username, profilePicURL }));
+    dispatch(userHasLoggedIn({ id, name, username, profilePicURL }));
   } else {
     dispatch(userHasLoggedOut());
     const errorData = registerServiceResponse.response.data;
@@ -60,9 +61,8 @@ export const loginUser = (
 
   const loginReturnData = await UserAPI.login(loginCredentials);
   if (isLoginSuccessResponse(loginReturnData)) {
-    const { name, username } = loginReturnData.data;
-    console.log('im here')
-    dispatch(userHasLoggedIn({ name, username }));
+    const { id, name, username } = loginReturnData.data;
+    dispatch(userHasLoggedIn({ id, name, username }));
 
   }
 
@@ -99,10 +99,6 @@ export const logoutUser = (
   dispatch(userDataIsLoading());
 
   UserAPI.logout(username);
-
-  removeLocalStorgeData('at');
-  removeLocalStorgeData('rt');
-
   dispatch(userHasLoggedOut());
 }
 
