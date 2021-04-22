@@ -1,0 +1,6 @@
+.articleList::after {
+  content: '';
+  position: absolute;
+  background-color: red;
+  width: 100%;
+}
