@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link';
 import EditArticleCard from '../../components/cards/EditArticleCard';
-import axios from '../../apis/Index';
 import EditorAPI from '../../apis/EditorAPI';
-import { RawArticleData } from '../../lib/article/ArticleActions.types';
+import { RawArticleData, BriefArticleData } from '../../lib/article/ArticleActions.types';
+import { RawDraftContentState } from 'draft-js';
 
 const me = () => {
 
@@ -13,9 +12,16 @@ const me = () => {
     const handleGetArticles = async () => {
       const resArticles = await EditorAPI.getArticlesBySelfUser();
       if (resArticles !== false) {
-        setArticles(resArticles.data.contents)
+        const processedArticles: BriefArticleData[] = resArticles.data.contents.map(({content, ...otherArticle}: RawArticleData) => {
+          const parsedContent: RawDraftContentState = JSON.parse(content);
+          const briefDescription = parsedContent.blocks.map(block => (!block.text.trim() && '\n') || block.text).join(' ');
+          return {
+            ...otherArticle,
+            content: briefDescription
+          }
+        })
+        setArticles(processedArticles);
       }
-      console.log(articles);
     }
     handleGetArticles();
   }, []);
@@ -33,7 +39,7 @@ const me = () => {
             key={key}
             id={id}
             name={title}
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa mollitia, velit saepe, voluptatibus vero voluptatum, laborum nesciunt explicabo eveniet quas animi rerum? Vitae totam, alias minima cumque praesentium assumenda ipsam."
+            description={content}
           />
         ))
       }
