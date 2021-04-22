@@ -12,6 +12,8 @@ import { RootState } from '../../states/RootReducer';
 import Modal from '../../components/modals/Modal';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Button from '../../components/buttons/Button';
+import TextField from '../../components/inputfields/TextField';
+import TitleField from '../../components/inputfields/TitleField';
 
 const imagePlugin = createImagePlugin();
 const plugins = [imagePlugin];
@@ -94,12 +96,21 @@ const newArticle = () => {
         onImageClick={handleImageClick}
         blockTypeHandler={blockTypeHandler}
       />
-      <ArticleField
-        className='mt-52 mx-2 md:mx-32'
-        articleState={articleState}
-        setArticleState={setArticleState}
-        plugins={plugins}
-      />
+      <section className="mt-32 mx-2 md:mx-32">
+        <div className="flex flex-col items-center justify-center">
+          <TitleField 
+            id="title"
+            name="title"
+            type="text"
+          />
+        </div>
+        <ArticleField
+          className='mt-8 mx-2 md:mx-32'
+          articleState={articleState}
+          setArticleState={setArticleState}
+          plugins={plugins}
+        />
+      </section>
     </>
   );
 };
