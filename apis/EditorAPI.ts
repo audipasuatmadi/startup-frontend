@@ -24,11 +24,11 @@ export default {
     return response;
   },
 
-  async getArticlesBySelfUser() {
+  async getArticlesByUser(userId: number) {
     let response: AxiosResponse | AxiosError<EditorApiErrorResponse>;
 
     try {
-      response = await axios.get('articles/u/1');
+      response = await axios.get(`articles/u/${userId}`);
     } catch (e) {
       response = e;
       if (isEditorApiErrorResponse(response)) {

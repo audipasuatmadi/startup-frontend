@@ -3,14 +3,19 @@ import EditArticleCard from '../../components/cards/EditArticleCard';
 import EditorAPI from '../../apis/EditorAPI';
 import { RawArticleData, BriefArticleData } from '../../lib/article/ArticleActions.types';
 import { RawDraftContentState } from 'draft-js';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../states/RootReducer';
+import { isUserDataType } from '../../lib/user/userTypes';
 
 const me = () => {
 
   const [articles, setArticles] = useState<RawArticleData[]>([]);
+  const userData = useSelector((state: RootState) => state.userData)
 
   useEffect(() => {
     const handleGetArticles = async () => {
-      const resArticles = await EditorAPI.getArticlesBySelfUser();
+      if (!isUserDataType(userData)) return;
+      const resArticles = await EditorAPI.getArticlesByUser(userData.id);
       if (resArticles !== false) {
         const processedArticles: BriefArticleData[] = resArticles.data.contents.map(({content, ...otherArticle}: RawArticleData) => {
           const parsedContent: RawDraftContentState = JSON.parse(content);
@@ -24,7 +29,7 @@ const me = () => {
       }
     }
     handleGetArticles();
-  }, []);
+  }, [userData]);
 
   useEffect(() => {
     console.log(articles);
