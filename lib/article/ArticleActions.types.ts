@@ -16,4 +16,6 @@ export interface BriefArticleData extends RawArticleData {}
 
 export interface ViewArticleData extends RawArticleData {
   writerData: UserData
+  createdAt: string
+  updatedAt: string
 }

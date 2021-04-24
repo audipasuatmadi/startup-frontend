@@ -5,6 +5,21 @@ import { isAxiosSuccessResponse } from "../../apis/Index.types";
 import { isTypeRawArticle, isTypeViewArticle } from "../../apis/EditorApi.types";
 import { UserData } from "../user/userTypes";
 
+const months = [
+  'Januari',
+  'Februari',
+  'Maret',
+  'April',
+  'Mei',
+  'Juni',
+  'Juli',
+  'Agustus',
+  'September',
+  'Oktober',
+  'November',
+  'Desember'
+];
+
 export const useArticleData = (articleId: number | string | string[]) => {
   const [articles, setArticles] = useState<ViewArticleData | null>(null);
   const [writerData, setWriterData] = useState<UserData | null>(null);
@@ -13,7 +28,14 @@ export const useArticleData = (articleId: number | string | string[]) => {
     const response = await EditorAPI.getArticleById(articleId);
     if (isAxiosSuccessResponse(response)) {
       if (isTypeViewArticle(response.data)) {
-        setArticles(response.data);
+        const updatedAtRaw = response.data.updatedAt.split('T')[0].split('-')
+        const updatedAtFix = `${updatedAtRaw[2]} ${months[parseInt(updatedAtRaw[1]) - 1]} ${updatedAtRaw[0]}`;
+        const withSanitizedDate: ViewArticleData = {
+          ...response.data,
+          updatedAt: updatedAtFix
+        }
+
+        setArticles(withSanitizedDate);
         setWriterData(response.data.writerData)
       }
     }
