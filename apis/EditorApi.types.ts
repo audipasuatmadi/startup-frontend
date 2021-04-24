@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { RawArticleData } from '../lib/article/ArticleActions.types';
+import { RawArticleData, ViewArticleData } from '../lib/article/ArticleActions.types';
 
 export interface EditorApiErrorResponse {
   message: string;
@@ -23,5 +23,12 @@ export const isEditorApiSuccessResponse = (
 
 export const isTypeRawArticle = (testObj: any): testObj is RawArticleData => {
   if ('title' in testObj && 'content' in testObj) return true;
+  return false;
+}
+
+export const isTypeViewArticle = (testObj: any): testObj is ViewArticleData => {
+  if ('title' in testObj && 'content' in testObj && 'writerData' in testObj)
+    if ('id' in testObj.writerData && 'name' in testObj.writerData && 'username' in testObj.writerData)
+      return true;
   return false;
 }
