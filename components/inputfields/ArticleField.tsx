@@ -17,6 +17,7 @@ export interface ArticleFieldProps {
 }
 
 const typeMap = {
+  'unstyled': 'text-typeface font-montserrat font-light text-lg',
   'header-two': 'text-2xl font-bold',
   'header-three': 'text-xl font-bold',
   'header-four': 'text-lg font-bold',
