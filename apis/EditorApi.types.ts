@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { RawArticleData } from '../lib/article/ArticleActions.types';
 
 export interface EditorApiErrorResponse {
   message: string;
@@ -19,3 +20,8 @@ export const isEditorApiSuccessResponse = (
   if ('data' in testedObj) if (typeof testedObj.data === 'object') return true;
   return false;
 };
+
+export const isTypeRawArticle = (testObj: any): testObj is RawArticleData => {
+  if ('title' in testObj && 'content' in testObj) return true;
+  return false;
+}
