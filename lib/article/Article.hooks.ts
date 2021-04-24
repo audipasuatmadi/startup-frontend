@@ -5,7 +5,7 @@ import { isAxiosSuccessResponse } from "../../apis/Index.types";
 import { isTypeRawArticle } from "../../apis/EditorApi.types";
 
 export const useArticleData = (articleId: number | string | string[]) => {
-  const [articles, setArticles] = useState<RawArticleData>();
+  const [articles, setArticles] = useState<RawArticleData | null>(null);
 
   const handleGetArticle = async (articleId: number) => {
     const response = await EditorAPI.getArticleById(articleId);
