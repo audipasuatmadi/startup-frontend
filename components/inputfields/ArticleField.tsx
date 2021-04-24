@@ -13,6 +13,7 @@ export interface ArticleFieldProps {
   articleState: EditorState;
   setArticleState: React.Dispatch<React.SetStateAction<EditorState>>;
   plugins?: any[];
+  readOnly?: boolean;
 }
 
 const typeMap = {
@@ -36,6 +37,7 @@ const ArticleField = ({
   articleState,
   setArticleState,
   plugins,
+  readOnly
 }: ArticleFieldProps) => {
   if (typeof window == 'undefined') return <p></p>;
 
@@ -68,6 +70,7 @@ const ArticleField = ({
           ref={editorRef}
           plugins={plugins}
           blockStyleFn={handleStyling}
+          readOnly={readOnly}
         />
       </article>
     </section>
