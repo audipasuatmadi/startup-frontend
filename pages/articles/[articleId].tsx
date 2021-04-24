@@ -32,7 +32,7 @@ const ViewArticle = (props: Props) => {
 
   if (!articleData  || !writerData) return <p>loading</p>
   return (
-    <div className="mt-32 mx-2 sm:mx-12 lg:mx-32">
+    <div className="mt-32 mx-4 sm:mx-12 lg:mx-32">
       <h1 className="text-4xl text-brand font-bold max-w-2xl mx-auto">
         {articleData.title}
       </h1>
@@ -52,7 +52,9 @@ const ViewArticle = (props: Props) => {
           >
             <a className="text-brand font-medium">{writerData.name}</a>
           </Link>
-          <p className="text-brand font-light">23 April 2021</p>
+          <p className="text-brand font-light">{
+            articleData.updatedAt
+          }</p>
         </div>
       </div>
       <ArticleField

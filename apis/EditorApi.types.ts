@@ -27,8 +27,8 @@ export const isTypeRawArticle = (testObj: any): testObj is RawArticleData => {
 }
 
 export const isTypeViewArticle = (testObj: any): testObj is ViewArticleData => {
-  if ('title' in testObj && 'content' in testObj && 'writerData' in testObj)
+  if ('title' in testObj && 'content' in testObj && 'writerData' in testObj && 'updatedAt' in testObj && 'createdAt' in testObj)
     if ('id' in testObj.writerData && 'name' in testObj.writerData && 'username' in testObj.writerData)
-      return true;
+      return true;  
   return false;
 }
