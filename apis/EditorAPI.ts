@@ -24,6 +24,18 @@ export default {
     return response;
   },
 
+  async getArticleById(articleId: number) {
+    let response: AxiosResponse | AxiosError<EditorApiErrorResponse>;
+
+    try {
+      response = await axios.get(`articles/${articleId}`);
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+    return response;
+  },
+
   async getArticlesByUser(userId: number) {
     let response: AxiosResponse | AxiosError<EditorApiErrorResponse>;
 
