@@ -1,4 +1,5 @@
 import { BaseActionType } from '../../states/RootReducer';
+import { UserData } from '../user/userTypes';
 
 export interface ArticleAction extends BaseActionType {
   payload?: string;
@@ -12,3 +13,7 @@ export interface RawArticleData {
 }
 
 export interface BriefArticleData extends RawArticleData {}
+
+export interface ViewArticleData extends RawArticleData {
+  writerData: UserData
+}

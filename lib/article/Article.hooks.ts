@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-import { RawArticleData } from "./ArticleActions.types";
+import { RawArticleData, ViewArticleData } from "./ArticleActions.types";
 import EditorAPI from "../../apis/EditorAPI";
 import { isAxiosSuccessResponse } from "../../apis/Index.types";
-import { isTypeRawArticle } from "../../apis/EditorApi.types";
+import { isTypeRawArticle, isTypeViewArticle } from "../../apis/EditorApi.types";
+import { UserData } from "../user/userTypes";
 
 export const useArticleData = (articleId: number | string | string[]) => {
-  const [articles, setArticles] = useState<RawArticleData | null>(null);
+  const [articles, setArticles] = useState<ViewArticleData | null>(null);
+  const [writerData, setWriterData] = useState<UserData | null>(null);
 
   const handleGetArticle = async (articleId: number) => {
     const response = await EditorAPI.getArticleById(articleId);
     if (isAxiosSuccessResponse(response)) {
-      if (isTypeRawArticle(response.data.content)) {
-        setArticles(response.data.content);
+      if (isTypeViewArticle(response.data)) {
+        setArticles(response.data);
+        setWriterData(response.data.writerData)
       }
     }
   }
@@ -27,5 +30,5 @@ export const useArticleData = (articleId: number | string | string[]) => {
     }
   }, [articleId]);
 
-  return articles;
+  return {articles, writerData};
 }
