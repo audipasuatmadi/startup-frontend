@@ -44,9 +44,9 @@ export default {
     } catch (e) {
       response = e;
       if (isEditorApiErrorResponse(response)) {
-        console.log(e)
+        console.log(e);
       }
-      console.log(e)
+      console.log(e);
       return false;
     }
 
@@ -55,5 +55,15 @@ export default {
     } else {
       return false;
     }
-  }
+  },
+
+  async getAllArticles() {
+    try {
+      const response = await axios.get(`/articles`);
+      return response.data;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
 };
