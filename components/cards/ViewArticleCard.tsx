@@ -6,16 +6,31 @@ interface Props {
   name: string;
   description: string;
   writerName?: string;
+  createdAt?: Date;
 }
 
-const ViewArticleCard = ({ id, description, name, writerName }: Props) => {
+const ViewArticleCard = ({
+  id,
+  description,
+  name,
+  writerName,
+  createdAt,
+}: Props) => {
   return (
-    <article className='articleList relative mb-4 lg:max-w-3xl'>
+    <article className='articleList relative mb-4 px-4 py-2 rounded-md transition-shadow duraton-200 hover:shadow-lg lg:max-w-3xl'>
+      <div className='flex gap-2'>
+        <div>
+          <div className='rounded-full w-7 h-7 bg-gray-500' />
+        </div>
+        <div>
+          <p>{writerName}</p>
+        </div>
+      </div>
       <header className='font-bold text-brand'>
         <Link href={`/articles/${id}`}>{name}</Link>
       </header>
       <p
-        className='font-ligh overflow-hidden overflow-ellipsis'
+        className='font-light overflow-hidden overflow-ellipsis'
         style={{
           display: '-webkit-box',
           WebkitLineClamp: 3,
@@ -23,19 +38,7 @@ const ViewArticleCard = ({ id, description, name, writerName }: Props) => {
         }}>
         <Link href={`/articles/${id}`}>{description}</Link>
       </p>
-      <p>{writerName}</p>
-      <style jsx>
-        {`
-          .articleList::after {
-            content: '';
-            margin-top: 1rem;
-            position: absolute;
-            background-color: #d0d3d8;
-            width: 100%;
-            height: 0.1rem;
-          }
-        `}
-      </style>
+      <p className='font-light'>{createdAt.toISOString().split('T')[0]}</p>
     </article>
   );
 };
