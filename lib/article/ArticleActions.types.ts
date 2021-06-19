@@ -14,8 +14,13 @@ export interface RawArticleData {
 
 export interface BriefArticleData extends RawArticleData {}
 
+export interface PublishedArticleData extends RawArticleData {
+  writer: UserData;
+  createdAt: string;
+}
+
 export interface ViewArticleData extends RawArticleData {
-  writerData: UserData
-  createdAt: string
-  updatedAt: string
+  writerData: UserData;
+  createdAt: string;
+  updatedAt: string;
 }
