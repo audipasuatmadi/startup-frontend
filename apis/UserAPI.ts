@@ -50,21 +50,21 @@ export default {
     let response:
       | AxiosResponse<LoginSuccessResponse>
       | AxiosError<LoginFailedResponse>;
-    
+
     try {
-      response = await axios.post('/users/login', loginCredentials)
-      return response
+      response = await axios.post('/users/login', loginCredentials);
+      return response;
     } catch (e) {
-      response = e as AxiosError<LoginFailedResponse>
+      response = e as AxiosError<LoginFailedResponse>;
 
       if (!response) {
         return unreachedServerError;
       }
 
       if (!response.response) {
-        response = unreachedServerError
+        response = unreachedServerError;
       }
-      return response
+      return response;
     }
   },
 
@@ -72,29 +72,29 @@ export default {
     let response:
       | AxiosResponse<LoginSuccessResponse>
       | AxiosError<LoginFailedResponse>;
-    
+
     try {
       response = await axios.post('/users/validate');
       return response;
     } catch (e) {
-      response = e as AxiosError<LoginFailedResponse>
-      
+      response = e as AxiosError<LoginFailedResponse>;
+
       if (!response) {
         return unreachedServerError;
       }
 
       if (!response.response) {
-        response = unreachedServerError
+        response = unreachedServerError;
       }
-      return response
+      return response;
     }
   },
 
   async logout(username: string) {
     try {
-      await axios.post('/users/logout', { username: username })
+      await axios.post('/users/logout', { username: username });
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 };
